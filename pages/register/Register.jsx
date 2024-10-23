@@ -1,20 +1,31 @@
+import styles from "./Register.module.css";
 import { useState } from "react";
-import styles from "./Login.module.css";
-import { login } from "../../services/auth";
+import { register } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState({
+    name: false,
     email: false,
     password: false,
+    confirmPassword: false,
   });
 
   const errorMessages = {
+    name: {
+      message: "Name is required",
+      isValid: formData.name.length > 0,
+      onError: () => {
+        setError((error) => ({ ...error, name: true }));
+      },
+    },
     email: {
       message: "Email is required",
       isValid: formData.email.length > 0,
@@ -27,6 +38,13 @@ export default function Login() {
       isValid: formData.password.length > 0,
       onError: () => {
         setError((error) => ({ ...error, password: true }));
+      },
+    },
+    confirmPassword: {
+      message: "Passwords do not match",
+      isValid: formData.confirmPassword === formData.password,
+      onError: () => {
+        setError((error) => ({ ...error, confirmPassword: true }));
       },
     },
   };
@@ -51,12 +69,11 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     if (!validateForm()) return;
-    const res = await login(formData);
+    console.log(formData)
+    const res = await register(formData);
 
-    if (res.status === 200) {
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-      navigate("/dashboard");
+    if (res.status === 201) {
+      navigate("/login");
     } else {
       console.error("Something went wrong");
     }
@@ -75,16 +92,30 @@ export default function Login() {
         <div className={styles.rightContainer}>
           <div className={styles.formMain}>
             <div className={`${styles.text}-center`}>
-              <h3 className={styles.formHeading}>Login</h3>
+              <h3 className={styles.formHeading}>Register</h3>
             </div>
             <form onSubmit={handleSubmit}>
+              <div className={styles.userSec}>
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Name"
+                  className={styles.formField}
+                  onChange={handleInputChange}
+                />
+                {error.name && (
+                  <span className={styles.errorMsge}>
+                    {errorMessages.name.message}
+                  </span>
+                )}
+              </div>
+
               <div className={styles.emailSec}>
                 <input
                   name="email"
                   type="email"
                   placeholder="Email"
                   className={styles.formField}
-                  value={formData.email}
                   onChange={handleInputChange}
                 />
                 {error.email && (
@@ -101,7 +132,6 @@ export default function Login() {
                     type="password"
                     placeholder="Password"
                     className={styles.formField}
-                    value={formData.password}
                     onChange={handleInputChange}
                   />
                   <img
@@ -117,12 +147,34 @@ export default function Login() {
                 )}
               </div>
 
+              <div className={styles.passwordSec}>
+                <div className={styles.passwordBlock}>
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password"
+                    className={styles.formField}
+                    onChange={handleInputChange}
+                  />
+                  <img
+                    className={styles.eyeToggle}
+                    src="./images/login/open-eye.png"
+                    alt="Show/Hide password"
+                  />
+                </div>
+                {error.confirmPassword && (
+                  <span className={styles.errorMsge}>
+                    {errorMessages.confirmPassword.message}
+                  </span>
+                )}
+              </div>
+
               <button type="submit" className={styles.mainBtn}>
-                Log in
-              </button>
-              <p>Have no account yet?</p>
-              <button type="button" className={`${styles.mainBtn} second`}>
                 Register
+              </button>
+              <p>Have an account?</p>
+              <button type="button" className={`${styles.mainBtn} second`}>
+                Login
               </button>
             </form>
           </div>
