@@ -1,0 +1,121 @@
+.customBox {
+    width: 100%; 
+    max-width: 100%;
+    border-radius: 4px;
+  }
+  
+  .dark .customBox {
+    border-color: #4B5563; 
+    background-color: #1F2937; 
+  }
+  
+  .headerSection {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .headerSection span{
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+  }
+  .headerSectionBlock{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .headerSectionBlock button{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #707070;
+  }
+  .headerSectionBlock button img{
+    margin-right: 6px;
+  }
+ 
+
+  @media (min-width: 640px) {
+    .headerSection {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  
+  .pageTitle {
+    font-size: 29px;
+    font-weight: 500;
+    color: black;
+  }
+  
+  .dark .pageTitle {
+    color: white;
+  }
+  
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .breadcrumbLink {
+    font-weight: 500;
+  }
+  
+  .breadcrumbActive {
+    font-weight: 500;
+    color: #1D4ED8;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdownIcon{
+      padding: 9px 8px;
+  }
+  .dropdownContent {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 0px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: -1px 0px 16px 0px rgb(0 0 0 / 17%);
+    z-index: 1;
+    padding: 15px 0px;
+    border-radius: 12px;
+  }
+  
+  .dropdownContent a {
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    font-weight: 500 ;
+    cursor: pointer;
+  }
+  .dropdown.threeDots .dropdownContent a:last-child{
+    color: #CF3636;
+    cursor: pointer;
+  }
+  
+  .dropdownContent a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }
+  .dropbtn {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000;
+    float: left;
+    display: flex;
+  }
+  

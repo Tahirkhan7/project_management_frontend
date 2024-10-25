@@ -1,144 +1,147 @@
-.loginMain{
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    background-color: #17A2B8;
+.loginMain {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-color: #17a2b8;
 }
-.loginLeftSide{
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.loginLeftSide {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.loginLeftSide h2{
-    font-size: 33px;
-    font-weight: 600;
-    line-height: 66px;
-    color: white;
-    margin-top: 10px;
+.loginLeftSide h2 {
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 66px;
+  color: white;
+  margin-top: 10px;
 }
-.loginLeftSide p{
-    color: white;
+.loginLeftSide p {
+  color: white;
 }
-.loginRightSide{
-    width: 40%;
-    background-color: #fff;
-    padding: 80px;
+.loginRightSide {
+  width: 40%;
+  background-color: #fff;
+  padding: 80px;
 }
 
-.loginLeftSide img{
-    width: 100%;
-    max-width: 260px;
-    margin: 0px auto;
+.loginLeftSide img {
+  width: 100%;
+  max-width: 260px;
+  margin: 0px auto;
 }
-.rightContainer, .leftContainer{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.rightContainer,
+.leftContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.formMain{
-    width: 100%
+.formMain {
+  width: 100%;
 }
-.emailSec, .passwordSec, .userSec{
-    margin-bottom: 20px;
+.emailSec,
+.passwordSec,
+.userSec {
+  margin-bottom: 20px;
 }
-.eyeToggle{
-    position: absolute;
-    right: 15px;
-    bottom:8px;
+.eyeToggle {
+  position: absolute;
+  right: 15px;
+  bottom: 8px;
 }
-.formMain form input[type=email] {
+.formMain form input[type="email"] {
   font-size: 16px;
   background-color: white;
-  background-image: url('./images/login/email.png');
-  background-position: 14px 8px; 
+  background-image: url("./images/login/email.png");
+  background-position: 14px 8px;
   background-repeat: no-repeat;
 }
-.formMain form input[type=password] {
+.formMain form input[type="password"] {
   font-size: 16px;
   background-color: white;
-  background-image: url('./images/login/lock.png');
-  background-position: 14px 7px; 
+  background-image: url("./images/login/lock.png");
+  background-position: 14px 7px;
   background-repeat: no-repeat;
 }
-.formMain form input[type=text] {
+.formMain form input[type="text"] {
   font-size: 16px;
   background-color: white;
-  background-image: url('./images/login/user.png');
-  background-position: 14px 7px; 
+  background-image: url("./images/login/user.png");
+  background-position: 14px 7px;
   background-repeat: no-repeat;
 }
-.passwordBlock{
+.passwordBlock {
   position: relative;
 }
 input.formField {
-    padding-left: 60px;
-    border-radius: 11px;
-    border: 1px solid #D0D0D0;
-    padding: 12px 20px 12px 60px;
-    width: 100%;
+  padding-left: 60px;
+  border-radius: 11px;
+  border: 1px solid #d0d0d0;
+  padding: 12px 20px 12px 60px;
+  width: 100%;
 }
 .errorMsge {
   font-size: 14px;
   letter-spacing: 0.5px;
-  color: #DB371F;
+  color: #db371f;
   display: block;
-  margin-top: -24px;
   position: relative;
-  z-index: -1;
-  opacity: 1;
-  transition: .2s;
-}
-.emailSec:hover .errorMsge{
   opacity: 1;
   margin-top: 6px;
   z-index: 1;
+  transition: 0.2s;
 }
+/* .emailSec:hover .errorMsge{
+  opacity: 1;
+  margin-top: 6px;
+  z-index: 1;
+} */
 button.mainBtn {
-    background-color: #17A2B8;
-    border-radius: 55px;
-    margin-top: 20px;
-    font-family: "Open Sans", sans-serif;
-    padding: 12px 20px;
-    width: 100%;
-    color: white;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 26px;
-    border: 2px solid #17A2B8;
-    transition: .6s;
+  background-color: #17a2b8;
+  border-radius: 55px;
+  margin-top: 20px;
+  font-family: "Open Sans", sans-serif;
+  padding: 12px 20px;
+  width: 100%;
+  color: white;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 26px;
+  border: 2px solid #17a2b8;
+  transition: 0.6s;
 }
-button.mainBtn:hover{
-    background-color: transparent;
-    color: #17A2B8;
+button.mainBtn:hover {
+  background-color: transparent;
+  color: #17a2b8;
 }
 .mainBtn.second {
-    background-color: transparent;
-    border: 2px solid #17A2B8;
-    border-radius: 55px;
-    margin-top: 0px;
-    font-family: "Open Sans", sans-serif;
-    padding: 12px 20px;
-    width: 100%;
-    color: #17A2B8;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 26px;
+  background-color: transparent;
+  border: 2px solid #17a2b8;
+  border-radius: 55px;
+  margin-top: 0px;
+  font-family: "Open Sans", sans-serif;
+  padding: 12px 20px;
+  width: 100%;
+  color: #17a2b8;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 26px;
 }
-.formHeading{
-    font-size: 33px;
-    font-weight: 600;
-    line-height: 45px;
-    color: #343434;
-    margin-bottom: 60px;
+.formHeading {
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #343434;
+  margin-bottom: 60px;
 }
-.formMain p{
-    text-align: center;
-    margin: 20px 0px;
-    color: #828282;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 26px;
+.formMain p {
+  text-align: center;
+  margin: 20px 0px;
+  color: #828282;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 26px;
 }

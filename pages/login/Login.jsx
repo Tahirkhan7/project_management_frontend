@@ -12,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState({
     email: false,
     password: false,
+    loginError: false,
   });
 
   const errorMessages = {
@@ -51,14 +52,27 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     if (!validateForm()) return;
-    const res = await login(formData);
 
-    if (res.status === 200) {
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-      navigate("/dashboard");
-    } else {
-      console.error("Something went wrong");
+    try {
+      const res = await login(formData);
+
+      if (res.status === 200) {
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError((prevError) => ({
+          ...prevError,
+          loginError: error.response.data.message,
+        }));
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          loginError: "An unexpected error occurred!",
+        }));
+      }
     }
   }
 
@@ -77,6 +91,9 @@ export default function Login() {
             <div className={`${styles.text}-center`}>
               <h3 className={styles.formHeading}>Login</h3>
             </div>
+            {error.loginError && (
+              <span className={styles.errorMsge}>{error.loginError}</span>
+            )}
             <form onSubmit={handleSubmit}>
               <div className={styles.emailSec}>
                 <input

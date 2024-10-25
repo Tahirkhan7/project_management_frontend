@@ -16,6 +16,7 @@ export default function Register() {
     email: false,
     password: false,
     confirmPassword: false,
+    registerError: false,
   });
 
   const errorMessages = {
@@ -69,16 +70,27 @@ export default function Register() {
   async function handleSubmit(event) {
     event.preventDefault();
     if (!validateForm()) return;
-    console.log(formData)
-    const res = await register(formData);
 
-    if (res.status === 201) {
-      navigate("/login");
-    } else {
-      console.error("Something went wrong");
+    try {
+      const res = await register(formData);
+
+      if (res.status === 201) {
+        navigate("/login");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError((prevError) => ({
+          ...prevError,
+          registerError: error.response.data.message,
+        }));
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          registerError: "An unexpected error occurred!",
+        }));
+      }
     }
   }
-
   return (
     <div className={styles.loginMain}>
       <div className={styles.loginLeftSide}>
@@ -94,6 +106,9 @@ export default function Register() {
             <div className={`${styles.text}-center`}>
               <h3 className={styles.formHeading}>Register</h3>
             </div>
+            {error.registerError && (
+              <span className={styles.errorMsge}>{error.registerError}</span>
+            )}
             <form onSubmit={handleSubmit}>
               <div className={styles.userSec}>
                 <input
