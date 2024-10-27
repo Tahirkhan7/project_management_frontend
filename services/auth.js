@@ -26,10 +26,13 @@ export const loginUser = async (data) => {
   return res;
 };
 
-export const getAllUsers = async (data) => {
-  const res = axios.get(`${import.meta.env.VITE_BASE_URL}/api/user`, data, {});
+export const getAllUsers = async (email) => {
+  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/user`, {
+    params: { email },
+  });
   return res;
 };
+
 
 export const myDetails = async (email) => {
   const res = axios.get(

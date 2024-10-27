@@ -1,7 +1,7 @@
 import styles from "./Register.module.css";
 import { useState } from "react";
 import { register } from "../../services/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -189,7 +189,7 @@ export default function Register() {
               </button>
               <p>Have an account?</p>
               <button type="button" className={`${styles.mainBtn} second`}>
-                Login
+                <Link to="/login"> Login </Link>
               </button>
             </form>
           </div>

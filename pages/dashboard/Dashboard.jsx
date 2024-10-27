@@ -12,6 +12,7 @@ import { addTask, getAllTask } from "../../services/task";
 import { getAllUsers } from "../../services/auth";
 
 export default function Dashboard() {
+  const [isAllcheckListVisible, setIsAllcheckListVisible] = useState(true);
   const navigate = useNavigate();
   const date = formatDateAndTime();
   const { username, email, boardId, logout } = useContext(AppContext);
@@ -20,41 +21,127 @@ export default function Dashboard() {
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
+  const [checklists, setChecklists] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState("");
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [error, setError] = useState({
+    title: false,
+    priority: false,
+    checklist: false,
+  });
 
   useEffect(() => {
-    const fetchTasksAndUsers = async () => {
+    const fetchTasks = async () => {
       try {
         const taskData = await getAllTask(email);
-        setTasks(taskData);
-
-        const userData = await getAllUsers();
-        setMembers(userData.data);
+        if (taskData.status === 200) {
+          setTasks(taskData.data);
+        }
       } catch (error) {
         console.error("Error fetching tasks or users:", error);
       }
     };
 
     if (email) {
-      fetchTasksAndUsers();
+      fetchTasks();
     }
   }, [email]);
 
-  const [checklists, setChecklists] = useState([]);
-  const [newChecklistText, setNewChecklistText] = useState("");
+  useEffect(() => {
+    const getUsers = async () => {
+      const res = await getAllUsers(email);
+      if (res.status === 200) {
+        setMembers(res.data);
+      }
+      console.log(members);
+    };
+
+    if (email) {
+      getUsers();
+    }
+  }, [email]);
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
 
   const handleAddChecklist = () => {
     if (newChecklistText.trim()) {
-      setChecklists([...checklists, newChecklistText]);
+      setChecklists([
+        ...checklists,
+        { text: newChecklistText, isChecked: false },
+      ]);
       setNewChecklistText("");
+      error.checklist = "";
+    }
+  };
+
+  const handleToggleCheck = (index) => {
+    setChecklists((prevChecklists) =>
+      prevChecklists.map((item, i) =>
+        i === index ? { ...item, isChecked: !item.isChecked } : item
+      )
+    );
+  };
+
+  const handleDeleteChecklist = (index) => {
+    setChecklists((prevChecklists) =>
+      prevChecklists.filter((_, i) => i !== index)
+    );
+  };
+
+  const errorMessages = {
+    title: {
+      message: "Title is required",
+      isValid: (value) => value.length > 0,
+      onError: () => {
+        setError((error) => ({ ...error, title: true }));
+      },
+    },
+    priority: {
+      message: "Priority is required",
+      isValid: (value) => value && value.length > 0,
+      onError: () => {
+        setError((error) => ({ ...error, priority: true }));
+      },
+    },
+    checklist: {
+      message: "Add at least 1 Checklist",
+      isValid: (value) => value && value.length > 0,
+      onError: () => {
+        setError((error) => ({ ...error, checklist: true }));
+      },
+    },
+  };
+
+  const validateForm = (formValues) => {
+    let valid = true;
+    Object.keys(errorMessages).forEach((field) => {
+      if (!errorMessages[field].isValid(formValues[field])) {
+        errorMessages[field].onError();
+        valid = false;
+      }
+    });
+    return valid;
+  };
+
+  const handleInputChange = (field, value) => {
+    if (errorMessages[field].isValid(value)) {
+      setError((prevError) => ({ ...prevError, [field]: false }));
     }
   };
 
   const handleTaskSubmit = async (event) => {
     event.preventDefault();
     const { title, assignedTo, dueDate } = event.target;
+
+    const formValues = {
+      title: title.value,
+      priority: selectedPriority,
+      checklist: checklists,
+    };
+
+    if (!validateForm(formValues)) return;
+
     const data = {
       title: title.value,
       priority: selectedPriority,
@@ -66,23 +153,11 @@ export default function Dashboard() {
 
     try {
       const res = await addTask(data);
-      console.log(res);
       if (res.status === 201) {
         closeAddModal();
       }
     } catch (error) {
-      console.error("errrrr: ", error);
-      // if (error.response && error.response.status === 400) {
-      //   setError((prevError) => ({
-      //     ...prevError,
-      //     registerError: error.response.data.message,
-      //   }));
-      // } else {
-      //   setError((prevError) => ({
-      //     ...prevError,
-      //     registerError: "An unexpected error occurred!",
-      //   }));
-      // }
+      console.error("Error:", error);
     }
   };
 
@@ -105,8 +180,27 @@ export default function Dashboard() {
     event.target.showPicker();
   };
 
-  const handlePrioritySelect = (priority) => {
+  const handleChecklistShow = () => {
+    setIsAllcheckListVisible(!isAllcheckListVisible);
+  };
+
+  const handlePrioritySelect = (priority, event) => {
+    event.preventDefault();
     setSelectedPriority(priority);
+    error.priority = "";
+  };
+
+  const updateTaskCategory = (taskId, newCategory) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, category: newCategory } : task
+      )
+    );
+  };
+
+  const handleAssignTo = (event, email) => {
+    event.preventDefault();
+    setSelectedEmail(email);
   };
 
   return (
@@ -124,12 +218,21 @@ export default function Dashboard() {
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>Backlog</h6>
-            <img src="./images/main/collapse.png" alt="Collapse" />
+            <img
+              src="./images/main/collapse.png"
+              alt="Collapse"
+              onClick={handleChecklistShow}
+            />
           </div>
           {tasks
-            .filter((task) => task.category === "to-do")
+            .filter((task) => task.category === "backlog")
             .map((task) => (
-              <HeroBlock key={task._id} task={task} />
+              <HeroBlock
+                key={task._id}
+                task={task}
+                isAllcheckListVisible={isAllcheckListVisible}
+                updateTaskCategory={updateTaskCategory}
+              />
             ))}
         </div>
         <div className={styles.taskBlock}>
@@ -142,21 +245,48 @@ export default function Dashboard() {
               <img src="./images/main/collapse.png" alt="Collapse" />
             </div>
           </div>
-          <HeroBlock />
+          {tasks
+            .filter((task) => task.category === "to-do")
+            .map((task) => (
+              <HeroBlock
+                key={task._id}
+                task={task}
+                isAllcheckListVisible={isAllcheckListVisible}
+                updateTaskCategory={updateTaskCategory}
+              />
+            ))}
         </div>
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>In progress</h6>
             <img src="./images/main/collapse.png" alt="Collapse" />
           </div>
-          <HeroBlock />
+          {tasks
+            .filter((task) => task.category === "in-progress")
+            .map((task) => (
+              <HeroBlock
+                key={task._id}
+                task={task}
+                isAllcheckListVisible={isAllcheckListVisible}
+                updateTaskCategory={updateTaskCategory}
+              />
+            ))}
         </div>
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>Done</h6>
             <img src="./images/main/collapse.png" alt="Collapse" />
           </div>
-          <HeroBlock />
+          {tasks
+            .filter((task) => task.category === "done")
+            .map((task) => (
+              <HeroBlock
+                key={task._id}
+                task={task}
+                isAllcheckListVisible={isAllcheckListVisible}
+                updateTaskCategory={updateTaskCategory}
+              />
+            ))}
         </div>
       </div>
 
@@ -187,17 +317,37 @@ export default function Dashboard() {
           id="addModal"
           className={`w3Modal ${isAddModalOpen ? "show" : ""}`}
         >
-          <div className={`w3ModalContent w3Card4`}>
+          <div
+            className={`w3ModalContent w3Card4 `}
+            style={{
+              height:
+                error.title || error.priority || error.checklist
+                  ? "700px"
+                  : "620px",
+            }}
+          >
             <header className={`w3Container w3Teal`}>
               <h6>
                 Title<span>*</span>
               </h6>
+              {error.title && (
+                <span className={styles.errorMsge}>
+                  {errorMessages.title.message}
+                </span>
+              )}
               <input
                 type="text"
                 name="title"
                 className={`enterTask`}
                 placeholder="Enter Task Title"
+                onChange={(e) => handleInputChange("title", e.target.value)}
               />
+
+              {error.priority && (
+                <span className={styles.errorMsge}>
+                  {errorMessages.priority.message}
+                </span>
+              )}
               <div className={`selectCategorySec`}>
                 <h6>
                   Select Priority<span>*</span>
@@ -207,7 +357,7 @@ export default function Dashboard() {
                   className={`priBtn1 ${
                     selectedPriority === "high" ? "active" : ""
                   }`}
-                  onClick={() => handlePrioritySelect("high")}
+                  onClick={(e) => handlePrioritySelect("high", e)}
                 >
                   HIGH PRIORITY
                 </button>
@@ -215,7 +365,7 @@ export default function Dashboard() {
                   className={`priBtn2 ${
                     selectedPriority === "moderate" ? "active" : ""
                   }`}
-                  onClick={() => handlePrioritySelect("moderate")}
+                  onClick={(e) => handlePrioritySelect("moderate", e)}
                 >
                   MODERATE PRIORITY
                 </button>
@@ -223,7 +373,7 @@ export default function Dashboard() {
                   className={`priBtn3 ${
                     selectedPriority === "low" ? "active" : ""
                   }`}
-                  onClick={() => handlePrioritySelect("low")}
+                  onClick={(e) => handlePrioritySelect("low", e)}
                 >
                   LOW PRIORITY
                 </button>
@@ -234,22 +384,56 @@ export default function Dashboard() {
                   <input
                     type="email"
                     name="assignedTo"
+                    value={selectedEmail}
+                    readOnly
                     className={`assignEmail`}
                     placeholder="Add an assignee"
                   />
                   <div className={`assignDrpdown`}>
+                    {members &&
+                      members.map((member) => (
+                        <div className="assignEmailBlock" key={member._id}>
+                          <div className="setAssignBlock">
+                            <div className="assignEmailName">
+                              {member.name
+                                .split(" ")
+                                .slice(0, 2)
+                                .map((word) => word[0])
+                                .join("")
+                                .toUpperCase()}
+                            </div>
+                            <p>{member.email}</p>
+                          </div>
+                          <button
+                            onClick={(e) => handleAssignTo(e, member.email)}
+                          >
+                            Assign
+                          </button>
+                        </div>
+                      ))}
                     {/* {members.map((member) => ( */}
-                      {/* // <AssignEmail key={member._id} member={member.email} /> */}
-                      <AssignEmail members={members} />
+                    {/* // <AssignEmail key={member._id} member={member.email} /> */}
+                    {/* <AssignEmail members={members} /> */}
                     {/* // ))} */}
                   </div>
                 </div>
               </div>
               <div className={`model checklist`}>
                 <h6>
-                  Checklist ({checklists.length}/{checklists.length})
-                  <span>*</span>
+                  Checklist (
+                  {
+                    checklists.filter(
+                      (checklist) => checklist.isChecked === true
+                    ).length
+                  }
+                  /{checklists.length})<span>*</span>
+                  {error.checklist && (
+                    <span className={styles.errorMsge}>
+                      {errorMessages.checklist.message}
+                    </span>
+                  )}
                   <input
+                    className={`checkListInput`}
                     type="text"
                     name="checklistInput"
                     value={newChecklistText}
@@ -261,10 +445,17 @@ export default function Dashboard() {
             </header>
             <div className={`modalMain`}>
               <div className={`addNewTaskSec`}>
-                {checklists.map((text, index) => (
-                  <CheckList key={index} text={text} />
+                {checklists.map((item, index) => (
+                  <CheckList
+                    key={index}
+                    text={item.text}
+                    checked={item.isChecked}
+                    onCheckToggle={() => handleToggleCheck(index)}
+                    onDelete={() => handleDeleteChecklist(index)}
+                  />
                 ))}
               </div>
+
               <button type="button" onClick={handleAddChecklist}>
                 <img src="./images/main/add.png" alt="Add" />
                 Add New

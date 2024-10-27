@@ -7,16 +7,22 @@ body {
   font-weight: 400;
   line-height: 26px;
 }
-h1, h2, h3, h4, h5, h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 0px;
   margin-top: 0px;
   font-family: "Poppins", sans-serif !important;
 }
-input, div{
+input,
+div {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif !important;
 }
-button{
+button {
   background-color: unset;
   border: unset;
   cursor: pointer;
@@ -28,12 +34,13 @@ button{
   font-family: "Poppins", sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
-
 }
-img{
+img {
   display: block;
 }
-ol, ul, menu {
+ol,
+ul,
+menu {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -42,10 +49,9 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
-p{
+p {
   margin: 0px;
 }
-
 
 /* -------------------Modal styles------------------- */
 .w3Modal {
@@ -96,18 +102,18 @@ p{
   font-size: 14px;
 }
 
-.closeBtn{
+.closeBtn {
   cursor: pointer;
 }
-.w3Container.w3Teal{
+.w3Container.w3Teal {
   margin-bottom: 20px;
 }
-.w3Container.w3Teal h2{
+.w3Container.w3Teal h2 {
   font-size: 20px;
   font-weight: 600;
   color: #000;
 }
-.w3Container #femail{
+.w3Container #femail {
   border: 1px solid #767575;
   padding: 15px 15px;
   font-size: 20px;
@@ -115,7 +121,7 @@ p{
   border-radius: 10px;
   width: 100%;
 }
-.formFooter{
+.formFooter {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,99 +130,136 @@ p{
 }
 .formFooter button {
   width: 50%;
-  border: 1px solid #CF3636;
+  border: 1px solid #cf3636;
   border-radius: 12px;
   padding: 10px 20px;
-  color: #CF3636;
+  color: #cf3636;
   font-size: 16px;
   font-weight: 600;
-  transition: .6s;
+  transition: 0.6s;
   cursor: pointer;
 }
-.formFooter button:hover{
-  background-color: #CF3636; 
+.formFooter button:hover {
+  background-color: #cf3636;
   color: #fff;
 }
-.formFooter input{
+.formFooter input {
   width: 50%;
-  border: 1px solid #17A2B8;
-  background-color: #17A2B8;
+  border: 1px solid #17a2b8;
+  background-color: #17a2b8;
   border-radius: 12px;
   padding: 10px 20px;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
-  transition: .6s;
+  transition: 0.6s;
   cursor: pointer;
 }
-.formFooter input:hover{
+.formFooter input:hover {
   background-color: transparent;
-  color: #17A2B8;
+  color: #17a2b8;
 }
-
-
-
-
 
 /* ------------------- logout Modal styles------------------- */
-#logoutModal .w3Container.w3Teal h2{
+#logoutModal .w3Container.w3Teal h2 {
   text-align: center;
   font-size: 14px;
   font-weight: 600;
 }
-#logoutModal .w3ModalContent{
+#logoutModal .w3ModalContent {
   max-width: 335.19px;
 }
 #logoutModal .formFooter {
   flex-direction: column;
 }
-#logoutModal .formFooter button{
+#logoutModal .formFooter button {
   width: 100%;
 }
-#logoutModal .yesLogOut.button{
-  background-color: #17A2B8;
+#logoutModal .yesLogOut.button {
+  background-color: #17a2b8;
   color: #fff;
-  border-color: #17A2B8;
+  border-color: #17a2b8;
 }
-#logoutModal .yesLogOut.button:hover{
+#logoutModal .yesLogOut.button:hover {
   background-color: transparent;
-  color: #17A2B8;
+  color: #17a2b8;
 }
 
 
 
+
+#deleteTaskModal .w3Container.w3Teal h2 {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+#deleteTaskModal .w3ModalContent {
+  max-width: 335.19px;
+}
+#deleteTaskModal .formFooter {
+  flex-direction: column;
+}
+#deleteTaskModal .formFooter button {
+  width: 100%;
+}
+#deleteTaskModal .yesLogOut.button {
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+}
+#deleteTaskModal .yesLogOut.button:hover {
+  background-color: transparent;
+  color: #17a2b8;
+}
 /* ------------------- Add Task Modal styles------------------- */
-#addModal .w3ModalContent{
+#addModal .w3ModalContent {
   width: 666px;
 }
-#addModal .w3Teal span{
-  color: #FF2473;
+#addModal .w3Teal span {
+  color: #ff2473;
   margin-left: 5px;
 }
-.w3Container.w3Teal .enterTask{
-  border: 1px solid #E2E2E2;
+.w3Container.w3Teal .enterTask {
+  border: 1px solid #e2e2e2;
   padding: 10px 15px;
   width: 100%;
   border-radius: 4px;
   font-size: 14px;
-  color: #9B959F;
+  color: #9b959f;
   margin-top: 5px;
 }
-#addModal .w3ModalContent{
+#addModal .w3ModalContent {
   border-radius: 22px;
-  height: 600px;
+  height: 620px;
   position: relative;
 }
-#addModal .w3Teal h6{
+
+#addModal .w3ModalContent .err{
+  border-radius: 22px;
+  height: 700px;
+  position: relative;
+}
+#addModal .w3Teal h6 {
   font-size: 14px;
   font-weight: 500;
-  color: #20102B;
+  color: #20102b;
 }
 #addModal .w3Teal button {
   font-size: 14px;
   font-weight: 500;
   color: #767575;
-  border: 1px solid #E2E2E2;
+  border: 1px solid #e2e2e2;
+  padding: 5px 10px 5px 38px;
+  border-radius: 8px;
+  position: relative;
+}
+
+#addModal .w3Teal .active {
+  font-size: 14px;
+  font-weight: 500;
+  color: #767575;
+  background-color: #EEECEC;
+  border: 1px solid #e2e2e2;
   padding: 5px 10px 5px 38px;
   border-radius: 8px;
   position: relative;
@@ -230,31 +273,29 @@ p{
   height: 9px;
   border-radius: 10px;
 }
-#addModal .w3Teal button.priBtn1:before{
-  background-color: #FF2473;
+#addModal .w3Teal button.priBtn1:before {
+  background-color: #ff2473;
 }
-#addModal .w3Teal button.priBtn2:before{
-  background-color: #18B0FF;
+#addModal .w3Teal button.priBtn2:before {
+  background-color: #18b0ff;
 }
-#addModal .w3Teal button.priBtn3:before{
-  background-color: #63C05B;
+#addModal .w3Teal button.priBtn3:before {
+  background-color: #63c05b;
 }
-.addSec{
+.addSec {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-#addModal .save.button{
-  background-color: #17A2B8;
-  border-color: #17A2B8;
+#addModal .save.button {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
   color: #fff;
 }
-#addModal .save.button:hover{
+#addModal .save.button:hover {
   background-color: transparent;
-  color: #17A2B8;
+  color: #17a2b8;
 }
-
-
 
 .selectCategorySec {
   margin-top: 20px;
@@ -264,9 +305,9 @@ p{
   justify-content: space-between;
   align-items: center;
 }
-.selectDate input{
+.selectDate input {
   padding: 10px 20px;
-  border: 1px solid #E2E2E2;
+  border: 1px solid #e2e2e2;
   border-radius: 12px;
   color: #707070;
   text-align: center;
@@ -275,26 +316,26 @@ p{
   font-weight: 500;
   width: 74%;
 }
-  
-.selectDate{
+
+.selectDate {
   width: 40%;
 }
-.footerBlock{
+.footerBlock {
   width: 60%;
-    display: flex;
-    gap: 15px;
-}
-.modalMain button{
   display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: 500;
-    margin-left: 5px;
-    margin-top: 10px;
-    position: relative;
-    z-index: 9;
-    color: #64748b;
+  gap: 15px;
+}
+.modalMain button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 5px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 9;
+  color: #64748b;
 }
 .w3-container.modal-footer {
   position: relative;
@@ -306,25 +347,31 @@ p{
   max-width: 625px;
 }
 
-.assignSec{
+.assignSec {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
-.assignSec h6{
+.assignSec h6 {
   width: 13%;
 }
-.assignEmailSec{
+.assignEmailSec {
   width: 87%;
   position: relative;
 }
 .assignSec input {
   width: 100%;
   padding: 10px 20px;
-  border: 1px solid #E2E2E2;
+  border: 1px solid #e2e2e2;
   border-radius: 4px;
 }
-.addNewTaskSec{
+.checkListInput {
+  width: 80%;
+  padding: 10px 20px;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+}
+.addNewTaskSec {
   height: 180px;
   overflow: auto;
 }
@@ -333,14 +380,14 @@ p{
 }
 
 .addNewTaskSec::-webkit-scrollbar-thumb {
-  background-color: #9CB7C5; /* Color of the scrollbar */
+  background-color: #9cb7c5; /* Color of the scrollbar */
   border-radius: 10px; /* Rounded corners */
 }
 
 .addNewTaskSec::-webkit-scrollbar-track {
   background-color: transparent; /* Track color */
 }
-.addNewTaskSec .content{
+.addNewTaskSec .content {
   margin-bottom: 15px;
   width: 95%;
 }
@@ -350,59 +397,58 @@ p{
   top: 12px;
 }
 
-
 .assignDrpdown {
   padding: 20px 25px;
-  border: 1px solid #7E7A7A14;
+  border: 1px solid #7e7a7a14;
   background-color: #fff;
   position: absolute;
   width: 100%;
   z-index: -1;
   opacity: 0;
-  transition: .6s;
+  transition: 0.6s;
 }
-.assignEmailSec:hover .assignDrpdown{
+.assignEmailSec:hover .assignDrpdown {
   z-index: 9;
   opacity: 1;
 }
 
 .assignDrpdown2 {
   padding: 20px 25px;
-  border: 1px solid #7E7A7A14;
+  border: 1px solid #7e7a7a14;
   background-color: #fff;
   position: absolute;
-  width: 30%;
+  width: 20%;
   z-index: -1;
   opacity: 0;
-  transition: .6s;
+  transition: 0.6s;
 }
-.w3Container:hover .assignDrpdown2{
+.w3Container:hover .assignDrpdown2 {
   z-index: 9;
   opacity: 1;
 }
-.assignEmailBlock{
+.assignEmailBlock {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 4px;
   margin-bottom: 20px;
 }
-.assignEmailBlock:last-child{
+.assignEmailBlock:last-child {
   margin-bottom: 0px;
 }
 
-.setAssignBlock{
+.setAssignBlock {
   display: flex;
   align-items: center;
   gap: 30px;
 }
-.setAssignBlock p{
+.setAssignBlock p {
   font-size: 16px;
   font-weight: 500;
-  color: #20102B
+  color: #20102b;
 }
 .assignEmailName {
-  background-color: #FFEBEB;
+  background-color: #ffebeb;
   border-radius: 100px;
   width: 41px;
   height: 41px;
@@ -411,22 +457,19 @@ p{
   justify-content: center;
   color: #000;
 }
-#addModal .assignEmailBlock button{
+#addModal .assignEmailBlock button {
   padding: 5px 50px 5px 50px;
-  transition: .6s;
+  transition: 0.6s;
 }
-#addModal .assignEmailBlock button:hover{
-  background-color: #17A2B8;
+#addModal .assignEmailBlock button:hover {
+  background-color: #17a2b8;
   color: #fff;
 }
 
-
-
-
-.view-header{
+.view-header {
   padding: 30px 50px;
 }
-.view-modal-sec{
+.view-modal-sec {
   width: 100%;
   max-width: 654px;
   margin: 0px auto;
@@ -437,7 +480,7 @@ p{
   font-weight: 500;
   padding: 12px 12px;
 }
-.checklist-footer button.due-date{
+.checklist-footer button.due-date {
   background-color: transparent;
   color: black;
 }
@@ -460,7 +503,7 @@ p{
   font-size: 14px;
   color: #000;
 }
-.checklistFooter{
+.checklistFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -469,19 +512,19 @@ p{
 .checklistFooter button {
   font-size: 8px;
   font-weight: 500;
-  background-color: #CF3636;
+  background-color: #cf3636;
   color: white;
   padding: 8px;
   line-height: 5px;
   border-radius: 8px;
 }
-.checklistFooter .checkProgress  button {
-  background-color: #EEECEC;
+.checklistFooter .checkProgress button {
+  background-color: #eeecec;
   color: #767575;
 }
-.checkProgress{
-    display: flex;
-    gap: 8px;
+.checkProgress {
+  display: flex;
+  gap: 8px;
 }
 
 .addNewTaskSec .checklist-block img {
@@ -490,9 +533,8 @@ p{
   top: 12px;
 }
 
-
-@media(max-width: 767px){
-  .view-header{
+@media (max-width: 767px) {
+  .view-header {
     padding: 20px 20px 0px 20px;
   }
 }

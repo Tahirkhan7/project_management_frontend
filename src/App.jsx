@@ -5,11 +5,13 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Analytics from "../pages/analytics/Analytics";
 import Settings from "../pages/settings/Settings";
 import DefaultLayout from "../layout/DefaultLayout";
+import NotFound from "../pages/notFound/NotFound";
+import SingleTask from "../pages/singleTask/SingleTask";
+import HeroShortBlock from "../components/HeroShortBlock";
 
 function App() {
   return (
     <Routes>
-      {/* Wrap DefaultLayout around routes that require it */}
       <Route element={<DefaultLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -17,8 +19,9 @@ function App() {
         <Route path="/settings" element={<Settings />} />
       </Route>
 
-      {/* Routes without layout */}
+        <Route path="*" element={<NotFound />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/task/view/:id" element={<HeroShortBlock />} />
       <Route path="/register" element={<Register />} />
     </Routes>
   );

@@ -28,7 +28,7 @@ const Sidebar = (  ) => {
               <li>
                 <NavLink
                 to="/"
-                  className={styles.navlist}>
+                className={({ isActive }) => isActive ? `${styles.navlist} ${styles.active}` : styles.navlist}>
                   <img src="./images/login/layout.png" />
                   Board
                 </NavLink>
@@ -39,7 +39,7 @@ const Sidebar = (  ) => {
               <li>
                 <NavLink
                   to="/analytics"
-                  className={styles.navlist}
+                  className={({ isActive }) => isActive ? `${styles.navlist} ${styles.active}` : styles.navlist}
                 >
                   <img src="./images/login/database.png" />
                   Analytics
@@ -51,7 +51,7 @@ const Sidebar = (  ) => {
               <li>
                 <NavLink
                   to="/settings"
-                  className={styles.navlist}
+                  className={({ isActive }) => isActive ? `${styles.navlist} ${styles.active}` : styles.navlist}
                 >
                   <img src="./images/login/settings.png" />
                   Setting

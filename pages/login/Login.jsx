@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import styles from "./Login.module.css";
 import { loginUser } from "../../services/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -141,7 +141,7 @@ export default function Login() {
               </button>
               <p>Have no account yet?</p>
               <button type="button" className={`${styles.mainBtn} second`}>
-                Register
+                <Link to="/register"> Register </Link>
               </button>
             </form>
           </div>

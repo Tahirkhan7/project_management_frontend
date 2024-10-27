@@ -1,0 +1,140 @@
+.heroSecBlock {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 30px;
+  }
+  .heroSecBlock h5{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    color: #000;
+    margin-top: 10px;
+    margin-bottom: 25px;
+  }
+  .prioritySec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .prioritySec span {
+    font-size: 8px;
+    font-weight: 500;
+    position: relative;
+    padding-left: 15px;
+  }
+  .prioritySec span:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 7px;
+    background-color: #ff2473;
+    width: 9px;
+    height: 9px;
+    border-radius: 10px;
+  }
+  select:focus-visible {
+    outline: unset;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdownContent {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: -1px 0 16px 0 rgba(0, 0, 0, 0.17);
+    z-index: 1;
+    padding: 15px 0;
+    border-radius: 12px;
+  }
+  
+  .dropdownContent a {
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .dropdownContent a:last-child {
+    color: #cf3636;
+    cursor: pointer;
+  }
+  
+  
+  .dropdownContent a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }
+  .checklistSec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .checklistSec span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+  }
+  .addNewTaskSec .content {
+    margin-bottom: 15px;
+    width: 95%;
+  }
+  .addNewTaskSec .checklistBlock img {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
+  .checklistBlock {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    background: white;
+    border: 1px solid #e2e2e2;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  .checklistBlock:last-child {
+    margin: 0px;
+  }
+  .checklistBlock label {
+    font-size: 14px;
+    color: #000;
+  }
+  .checklistFooter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+  }
+  .checklistFooter button {
+    font-size: 8px;
+    font-weight: 500;
+    background-color: #CF3636;
+    color: white;
+    padding: 8px;
+    line-height: 5px;
+    border-radius: 8px;
+  }
+  .checklistFooter .checkProgress  button {
+    background-color: #EEECEC;
+    color: #767575;
+  }
+  .checkProgress{
+      display: flex;
+      gap: 8px;
+  }

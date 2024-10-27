@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
-// Create a Context
 const ModalContext = createContext<any>(null);
 
-// Create a provider component
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -17,5 +15,4 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Create a custom hook to use the ModalContext
 export const useModal = () => useContext(ModalContext);
