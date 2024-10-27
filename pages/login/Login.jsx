@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../../context/AppContext";
 import styles from "./Login.module.css";
-import { login } from "../../services/auth";
+import { loginUser } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AppContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -54,11 +56,11 @@ export default function Login() {
     if (!validateForm()) return;
 
     try {
-      const res = await login(formData);
+      const res = await loginUser(formData);
 
       if (res.status === 200) {
-        const token = res.data.token;
-        localStorage.setItem("token", token);
+        const data = { username: res.data.username, email: res.data.email, boardId: res.data.boardId, token: res.data.token };
+        login(data);
         navigate("/dashboard");
       }
     } catch (error) {

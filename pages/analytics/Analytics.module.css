@@ -1,0 +1,62 @@
+.customBox {
+    width: 100%; /* w-full */
+    max-width: 100%; /* max-w-full */
+    border-radius: 4px; /* rounded-sm */
+  }
+
+.customBox {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    overflow-x: auto; /* Ensures horizontal scrolling */
+    overflow-y: hidden; /* Hides vertical scrollbar */
+    white-space: nowrap;
+    padding-bottom: 10px; /* Adds space at the bottom for the scrollbar */
+}
+.analyticsBlock {
+    background-color: #F9FCFF;
+    padding: 30px;
+    width: 100%;
+    max-width: 475px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-radius: 12px;
+}
+
+.analyticsTask {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.analyticsTaskText {
+    position: relative;
+    padding-left: 25px;
+    font-size: 18px;
+    font-weight: 400;
+    color: black;
+}
+
+.analyticsTaskCount {
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+}
+
+.analyticsTaskText::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    background-color: #90C4CC;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.settingFormSec {
+    width: 100%;
+    max-width: 490px;
+    margin-top: 20px;
+}

@@ -9,26 +9,495 @@ body {
 }
 h1, h2, h3, h4, h5, h6{
   margin-bottom: 0px;
+  margin-top: 0px;
+  font-family: "Poppins", sans-serif !important;
 }
-input{
+input, div{
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif !important;
+}
+button{
+  background-color: unset;
+  border: unset;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif !important;
+  display: block;
 }
 
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+:root {
+  font-family: "Poppins", sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+img{
+  display: block;
+}
+ol, ul, menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+p{
+  margin: 0px;
 }
 
+
+/* -------------------Modal styles------------------- */
+.w3Modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+  opacity: 0; /* Initial state: fully transparent */
+  transition: opacity 0.5s ease-in-out; /* Fade transition */
+}
+
+.w3Modal.show {
+  display: block;
+  opacity: 1; /* Fully opaque when modal is open */
+}
+
+/* Modal content styles */
+.w3ModalContent {
+  background-color: white;
+  margin: 15% auto;
+  padding: 40px 20px;
+  border: 1px solid #888;
+  width: 80%; /* Adjust the width as needed */
+  max-width: 665px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Header and footer styles */
+.w3-header {
+  background-color: #3b8d99;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.w3-footer {
+  background-color: #3b8d99;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.closeBtn{
+  cursor: pointer;
+}
+.w3Container.w3Teal{
+  margin-bottom: 20px;
+}
+.w3Container.w3Teal h2{
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+.w3Container #femail{
+  border: 1px solid #767575;
+  padding: 15px 15px;
+  font-size: 20px;
+  font-weight: 400;
+  border-radius: 10px;
+  width: 100%;
+}
+.formFooter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.formFooter button {
+  width: 50%;
+  border: 1px solid #CF3636;
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #CF3636;
+  font-size: 16px;
+  font-weight: 600;
+  transition: .6s;
+  cursor: pointer;
+}
+.formFooter button:hover{
+  background-color: #CF3636; 
+  color: #fff;
+}
+.formFooter input{
+  width: 50%;
+  border: 1px solid #17A2B8;
+  background-color: #17A2B8;
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  transition: .6s;
+  cursor: pointer;
+}
+.formFooter input:hover{
+  background-color: transparent;
+  color: #17A2B8;
+}
+
+
+
+
+
+/* ------------------- logout Modal styles------------------- */
+#logoutModal .w3Container.w3Teal h2{
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+#logoutModal .w3ModalContent{
+  max-width: 335.19px;
+}
+#logoutModal .formFooter {
+  flex-direction: column;
+}
+#logoutModal .formFooter button{
+  width: 100%;
+}
+#logoutModal .yesLogOut.button{
+  background-color: #17A2B8;
+  color: #fff;
+  border-color: #17A2B8;
+}
+#logoutModal .yesLogOut.button:hover{
+  background-color: transparent;
+  color: #17A2B8;
+}
+
+
+
+/* ------------------- Add Task Modal styles------------------- */
+#addModal .w3ModalContent{
+  width: 666px;
+}
+#addModal .w3Teal span{
+  color: #FF2473;
+  margin-left: 5px;
+}
+.w3Container.w3Teal .enterTask{
+  border: 1px solid #E2E2E2;
+  padding: 10px 15px;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #9B959F;
+  margin-top: 5px;
+}
+#addModal .w3ModalContent{
+  border-radius: 22px;
+  height: 600px;
+  position: relative;
+}
+#addModal .w3Teal h6{
+  font-size: 14px;
+  font-weight: 500;
+  color: #20102B;
+}
+#addModal .w3Teal button {
+  font-size: 14px;
+  font-weight: 500;
+  color: #767575;
+  border: 1px solid #E2E2E2;
+  padding: 5px 10px 5px 38px;
+  border-radius: 8px;
+  position: relative;
+}
+#addModal .w3Teal button:before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 9px;
+  height: 9px;
+  border-radius: 10px;
+}
+#addModal .w3Teal button.priBtn1:before{
+  background-color: #FF2473;
+}
+#addModal .w3Teal button.priBtn2:before{
+  background-color: #18B0FF;
+}
+#addModal .w3Teal button.priBtn3:before{
+  background-color: #63C05B;
+}
+.addSec{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#addModal .save.button{
+  background-color: #17A2B8;
+  border-color: #17A2B8;
+  color: #fff;
+}
+#addModal .save.button:hover{
+  background-color: transparent;
+  color: #17A2B8;
+}
+
+
+
+.selectCategorySec {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.selectDate input{
+  padding: 10px 20px;
+  border: 1px solid #E2E2E2;
+  border-radius: 12px;
+  color: #707070;
+  text-align: center;
+  font-size: 16px;
+  background: round;
+  font-weight: 500;
+  width: 74%;
+}
+  
+.selectDate{
+  width: 40%;
+}
+.footerBlock{
+  width: 60%;
+    display: flex;
+    gap: 15px;
+}
+.modalMain button{
+  display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 9;
+    color: #64748b;
+}
+.w3-container.modal-footer {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  max-width: 625px;
+}
+
+.assignSec{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.assignSec h6{
+  width: 13%;
+}
+.assignEmailSec{
+  width: 87%;
+  position: relative;
+}
+.assignSec input {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid #E2E2E2;
+  border-radius: 4px;
+}
+.addNewTaskSec{
+  height: 180px;
+  overflow: auto;
+}
+.addNewTaskSec::-webkit-scrollbar {
+  width: 10px; /* Height of the scrollbar */
+}
+
+.addNewTaskSec::-webkit-scrollbar-thumb {
+  background-color: #9CB7C5; /* Color of the scrollbar */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.addNewTaskSec::-webkit-scrollbar-track {
+  background-color: transparent; /* Track color */
+}
+.addNewTaskSec .content{
+  margin-bottom: 15px;
+  width: 95%;
+}
+.addNewTaskSec .checklistBlock img {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+
+.assignDrpdown {
+  padding: 20px 25px;
+  border: 1px solid #7E7A7A14;
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  opacity: 0;
+  transition: .6s;
+}
+.assignEmailSec:hover .assignDrpdown{
+  z-index: 9;
+  opacity: 1;
+}
+
+.assignDrpdown2 {
+  padding: 20px 25px;
+  border: 1px solid #7E7A7A14;
+  background-color: #fff;
+  position: absolute;
+  width: 30%;
+  z-index: -1;
+  opacity: 0;
+  transition: .6s;
+}
+.w3Container:hover .assignDrpdown2{
+  z-index: 9;
+  opacity: 1;
+}
+.assignEmailBlock{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.assignEmailBlock:last-child{
+  margin-bottom: 0px;
+}
+
+.setAssignBlock{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.setAssignBlock p{
+  font-size: 16px;
+  font-weight: 500;
+  color: #20102B
+}
+.assignEmailName {
+  background-color: #FFEBEB;
+  border-radius: 100px;
+  width: 41px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+#addModal .assignEmailBlock button{
+  padding: 5px 50px 5px 50px;
+  transition: .6s;
+}
+#addModal .assignEmailBlock button:hover{
+  background-color: #17A2B8;
+  color: #fff;
+}
+
+
+
+
+.view-header{
+  padding: 30px 50px;
+}
+.view-modal-sec{
+  width: 100%;
+  max-width: 654px;
+  margin: 0px auto;
+  padding: 20px;
+}
+.view-mode .checklist-footer button {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 12px;
+}
+.checklist-footer button.due-date{
+  background-color: transparent;
+  color: black;
+}
+
+.checklistBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e2e2e2;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  position: relative;
+}
+.checklistBlock:last-child {
+  margin: 0px;
+}
+.checklistBlock label {
+  font-size: 14px;
+  color: #000;
+}
+.checklistFooter{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+.checklistFooter button {
+  font-size: 8px;
+  font-weight: 500;
+  background-color: #CF3636;
+  color: white;
+  padding: 8px;
+  line-height: 5px;
+  border-radius: 8px;
+}
+.checklistFooter .checkProgress  button {
+  background-color: #EEECEC;
+  color: #767575;
+}
+.checkProgress{
+    display: flex;
+    gap: 8px;
+}
+
+.addNewTaskSec .checklist-block img {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+
+@media(max-width: 767px){
+  .view-header{
+    padding: 20px 20px 0px 20px;
+  }
+}
+
+/* 
 a {
   font-weight: 500;
   color: #646cff;

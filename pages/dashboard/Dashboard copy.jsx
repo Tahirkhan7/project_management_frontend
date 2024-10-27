@@ -8,82 +8,36 @@ import AssignEmail from "../../components/AssignEmail";
 import { useModal } from "../../model/ModalContext";
 import { useNavigate } from "react-router-dom";
 import formatDateAndTime from "../../utils/formatDateAndTime";
-import { addTask, getAllTask } from "../../services/task";
-import { getAllUsers } from "../../services/auth";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { username, logout } = useContext(AppContext);
+  const { isModalOpen, closeModal } = useModal(); // For logout modal
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false); // For add modal
   const date = formatDateAndTime();
-  const { username, email, boardId, logout } = useContext(AppContext);
-  const { isModalOpen, closeModal } = useModal();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedPriority, setSelectedPriority] = useState(null);
-  const [tasks, setTasks] = useState([]);
-  const [members, setMembers] = useState([]);
-
-  useEffect(() => {
-    const fetchTasksAndUsers = async () => {
-      try {
-        const taskData = await getAllTask(email);
-        setTasks(taskData);
-
-        const userData = await getAllUsers();
-        setMembers(userData.data);
-      } catch (error) {
-        console.error("Error fetching tasks or users:", error);
-      }
-    };
-
-    if (email) {
-      fetchTasksAndUsers();
-    }
-  }, [email]);
-
-  const [checklists, setChecklists] = useState([]);
-  const [newChecklistText, setNewChecklistText] = useState("");
-
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
+  const [selectedPriority, setSelectedPriority] = useState(null);
 
-  const handleAddChecklist = () => {
-    if (newChecklistText.trim()) {
-      setChecklists([...checklists, newChecklistText]);
-      setNewChecklistText("");
-    }
+  const [formData, setFormData] = useState({
+    task1: false,
+    task2: false,
+    task3: false,
+  });
+
+  const token = localStorage.getItem("token");
+
+  const handleChange = (event) => {
+    const { name, checked } = event.target;
+    setFormData({
+      ...formData,
+      [name]: checked,
+    });
   };
 
-  const handleTaskSubmit = async (event) => {
+  const handleTaskSubmit = (event) => {
     event.preventDefault();
-    const { title, assignedTo, dueDate } = event.target;
-    const data = {
-      title: title.value,
-      priority: selectedPriority,
-      assignedTo: assignedTo.value || email,
-      checklist: checklists,
-      boardId: boardId,
-      dueDate: dueDate.value || "",
-    };
-
-    try {
-      const res = await addTask(data);
-      console.log(res);
-      if (res.status === 201) {
-        closeAddModal();
-      }
-    } catch (error) {
-      console.error("errrrr: ", error);
-      // if (error.response && error.response.status === 400) {
-      //   setError((prevError) => ({
-      //     ...prevError,
-      //     registerError: error.response.data.message,
-      //   }));
-      // } else {
-      //   setError((prevError) => ({
-      //     ...prevError,
-      //     registerError: "An unexpected error occurred!",
-      //   }));
-      // }
-    }
+    console.log(selectedPriority);
   };
 
   const handleLogout = () => {
@@ -94,15 +48,15 @@ export default function Dashboard() {
   const [inputType, setInputType] = useState("text");
 
   const handleFocus = () => {
-    setInputType("date");
+    setInputType("date"); // Change to 'date' when focused
   };
 
   const handleBlur = () => {
-    setInputType("text");
+    setInputType("text"); // Revert back to 'text' when focus is lost
   };
 
   const handleClick = (event) => {
-    event.target.showPicker();
+    event.target.showPicker(); // Force open the date picker on click
   };
 
   const handlePrioritySelect = (priority) => {
@@ -120,17 +74,14 @@ export default function Dashboard() {
 
       <Breadcrumb pageName="Board" filter={true} addPeople={true} />
 
+      {/* Calendar Section Start */}
       <div className={styles.customBox}>
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>Backlog</h6>
             <img src="./images/main/collapse.png" alt="Collapse" />
           </div>
-          {tasks
-            .filter((task) => task.category === "to-do")
-            .map((task) => (
-              <HeroBlock key={task._id} task={task} />
-            ))}
+          <HeroBlock />
         </div>
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
@@ -159,6 +110,7 @@ export default function Dashboard() {
           <HeroBlock />
         </div>
       </div>
+      {/* Calendar Section End */}
 
       <div id="logoutModal" className={`w3Modal ${isModalOpen ? "show" : ""}`}>
         <div className={`w3ModalContent w3Card4`}>
@@ -238,34 +190,29 @@ export default function Dashboard() {
                     placeholder="Add an assignee"
                   />
                   <div className={`assignDrpdown`}>
-                    {/* {members.map((member) => ( */}
-                      {/* // <AssignEmail key={member._id} member={member.email} /> */}
-                      <AssignEmail members={members} />
-                    {/* // ))} */}
+                    <AssignEmail />
+                    <AssignEmail />
+                    <AssignEmail />
+                    <AssignEmail />
+                    <AssignEmail />
                   </div>
                 </div>
               </div>
               <div className={`model checklist`}>
                 <h6>
-                  Checklist ({checklists.length}/{checklists.length})
-                  <span>*</span>
-                  <input
-                    type="text"
-                    name="checklistInput"
-                    value={newChecklistText}
-                    onChange={(e) => setNewChecklistText(e.target.value)}
-                    placeholder="Enter checklist item"
-                  />
+                  Checklist (0/0)<span>*</span>
                 </h6>
               </div>
             </header>
             <div className={`modalMain`}>
               <div className={`addNewTaskSec`}>
-                {checklists.map((text, index) => (
-                  <CheckList key={index} text={text} />
-                ))}
+                <CheckList />
+                <CheckList />
+                <CheckList />
+                <CheckList />
+                <CheckList />
               </div>
-              <button type="button" onClick={handleAddChecklist}>
+              <button>
                 <img src="./images/main/add.png" alt="Add" />
                 Add New
               </button>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from "./Breadcrumbs.module.css";
+import AssignEmail from '../AssignEmail';
 
 // eslint-disable-next-line react/prop-types
 const Breadcrumb = ({ pageName, filter, addPeople }) => {
@@ -51,12 +52,12 @@ const Breadcrumb = ({ pageName, filter, addPeople }) => {
         </div>
       )}
 
-      {/* <div id="id01" className={`w3Modal ${isModalOpen ? 'show' : ''}`}>
-        <div className={`${styles.w3ModalContent} w3Card4`}>
-          <header className={`${styles.w3Container} w3Teal`}>
+      <div id="id01" className={`w3Modal ${isModalOpen ? 'show' : ''}`}>
+        <div className={`w3ModalContent w3Card4`}>
+          <header className={`w3Container w3Teal`}>
             <h2>Add people to the board</h2>
           </header>
-          <div className={styles.w3Container}>
+          <div className={`w3Container`}>
             <form>
               <input
                 type="email"
@@ -64,14 +65,18 @@ const Breadcrumb = ({ pageName, filter, addPeople }) => {
                 name="femail"
                 placeholder="Enter the email"
               />
-              <div className={`${styles.form} footer`}>
+              <div className={`assignDrpdown2`}>
+                    <AssignEmail />
+                    <AssignEmail />
+                  </div>
+              <div className={`formFooter`}>
                 <button type="button" onClick={closeModal}>Cancel</button>
                 <input type="submit" value="Submit" />
               </div>
             </form>
           </div>
         </div>
-      </div> */}
+      </div> 
     </div>
   );
 };

@@ -51,25 +51,31 @@
 }
 .formMain form input[type=email] {
   font-size: 16px;
-  background-color: white;
-  background-image: url('./images/login/email.png');
+  background-color: white !important;
+  background-image: url('./images/login/email.png') !important;
   background-position: 14px 8px; 
   background-repeat: no-repeat;
 }
 .formMain form input[type=password] {
   font-size: 16px;
-  background-color: white;
-  background-image: url('./images/login/lock.png');
+  background-color: white !important;
+  background-image: url('./images/login/lock.png') !important;
   background-position: 14px 7px; 
   background-repeat: no-repeat;
 }
 .formMain form input[type=text] {
   font-size: 16px;
-  background-color: white;
-  background-image: url('./images/login/user.png');
+  background-color: white !important;
+  background-image: url('./images/login/user.png') !important;
   background-position: 14px 7px; 
   background-repeat: no-repeat;
 }
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: inherit !important;
+}
+
+
 .passwordBlock{
   position: relative;
 }

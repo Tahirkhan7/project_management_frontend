@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-const CheckList = ({ text }) => {
-  const [checked, setChecked] = useState(false);
-  
+const CheckList = () => {
 
   const [formData, setFormData] = useState({
     task1: false,
@@ -14,7 +12,7 @@ const CheckList = ({ text }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown open/close state
 
   // Array of dropdown options
-  const options = ["Edit", "Share", "Delete"];
+  const options = ['Edit', 'Share', 'Delete'];
 
   const handleChange = (event) => {
     const { name, checked } = event.target;
@@ -36,24 +34,33 @@ const CheckList = ({ text }) => {
     setDropdownOpen(false);
   };
 
+
   return (
     <>
-      {/* Collapsible Checklist (Initially Open) */}
-      <div
-        className="content"
-        style={{
-          maxHeight: isChecklistVisible ? "500px" : "0",
-          overflow: "hidden",
-          transition: "max-height 0.8s ease-in-out",
-        }}
-      >
-        <div className="checklistBlock">
-          <input type="checkbox" checked={checked} onChange={handleChange} />
-          <label>{text}</label>
-          <img src="./images/main/Delete.png" alt="Delete" />
+
+        {/* Collapsible Checklist (Initially Open) */}
+        <div
+          className="content"
+          style={{
+            maxHeight: isChecklistVisible ? '500px' : '0',
+            overflow: 'hidden',
+            transition: 'max-height 0.8s ease-in-out',
+          }}
+        >
+          <div className="checklistBlock">
+            <input
+              type="checkbox"
+              id="task1"
+              name="task1"
+              checked={formData.task1}
+              onChange={handleChange}
+            />
+            <label htmlFor="task1">Task to be done</label>
+            <img src="./images/main/Delete.png" />
+          </div>
         </div>
-      </div>
       {/* ====== Hero Section End ====== */}
+
     </>
   );
 };

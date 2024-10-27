@@ -1,24 +1,25 @@
 import { Outlet } from 'react-router-dom';  
 import Sidebar from '../components/Sidebar/Sidebar';
-import { ModalProvider } from '../model/ModalContext';  // Import ModalProvider
+import { ModalProvider } from '../model/ModalContext';
+import styles from "./DefaultLayout.module.css";
 
 const DefaultLayout = () => {
 
   return (
     <ModalProvider>
-      <div className="layout-main">
-        <div className="flex h-screen overflow-hidden">
+      <div className={styles.layoutMain}>
+        <div className={styles.layoutMainStyle}>
           <Sidebar />
-          <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          <div className={styles.mainDashboard}>
             <main>
-              <div className="main-content">
+              <div className={styles.mainContent}>
                 <Outlet />
               </div>
             </main>
           </div>
         </div>
       </div>
-    </ModalProvider>
+      </ModalProvider>
   );
 };
 

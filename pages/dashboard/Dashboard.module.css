@@ -1,3 +1,5 @@
+
+
 .headerMain {
     position: sticky;
     top: 0;
@@ -87,11 +89,13 @@
 .taskHeading{
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .taskHeading h6{
     font-size: 16px;
     font-weight: 500;
     color: #000;
+    margin-top: 0px;
   }
   .addSec{
     display: flex;
@@ -217,6 +221,16 @@
   #addModal .w3Teal button.priBtn3:before{
     background-color: #63C05B;
   }
+
+  #addModal .w3Teal button.priBtn1.active:before {
+    background-color: #2b0211; /* Adjusted active color for HIGH PRIORITY */
+  }
+  #addModal .w3Teal button.priBtn2.active:before {
+    background-color: #116EA1; /* Adjusted active color for MODERATE PRIORITY */
+  }
+  #addModal .w3Teal button.priBtn3.active:before {
+    background-color: #052302; /* Adjusted active color for LOW PRIORITY */
+  }
   .assignSec{
     display: flex;
     align-items: center;
@@ -235,7 +249,16 @@
     border: 1px solid #E2E2E2;
     border-radius: 4px;
   }
+  
   .assignEmailSec:hover .assignDrpdown{
+    z-index: 9;
+    opacity: 1;
+  }
+  .checklistInput{
+    width: 87%;
+    position: relative;
+  }
+  .checklistInput:hover .assignDrpdown{
     z-index: 9;
     opacity: 1;
   }

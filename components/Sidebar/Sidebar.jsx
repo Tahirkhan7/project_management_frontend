@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import styles from "./Sidebar.module.css";
 import { NavLink } from 'react-router-dom';
 
@@ -18,7 +17,7 @@ const Sidebar = (  ) => {
         </NavLink>
       </div>
 
-      <div className={`${styles.noScrollbar} flex flexCol overflowyAuto duration300 easelinear`}>
+      <div className={styles.menuItemsSec}>
         {/* <!-- Sidebar Menu --> */}
         <nav className="">          {/* <!-- Menu Group --> */}
           <div>
