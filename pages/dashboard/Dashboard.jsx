@@ -1,19 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { AppContext } from "../../context/AppContext";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import HeroBlock from "../../components/HeroBlock";
 import CheckList from "../../components/CheckList";
-import AssignEmail from "../../components/AssignEmail";
 import { useModal } from "../../model/ModalContext";
-import { useNavigate } from "react-router-dom";
 import formatDateAndTime from "../../utils/formatDateAndTime";
-import { addTask, getAllTask } from "../../services/task";
+import { addTask, getAllTask, updateTask } from "../../services/task";
 import { getAllUsers } from "../../services/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Dashboard() {
   const [isAllcheckListVisible, setIsAllcheckListVisible] = useState(true);
-  const navigate = useNavigate();
   const date = formatDateAndTime();
   const { username, email, boardId, logout } = useContext(AppContext);
   const { isModalOpen, closeModal } = useModal();
@@ -24,42 +25,94 @@ export default function Dashboard() {
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState("");
   const [selectedEmail, setSelectedEmail] = useState("");
+  const [selectedOption, setSelectedOption] = useState("This Week");
+  const modalRef = useRef(null);
+
   const [error, setError] = useState({
     title: false,
     priority: false,
     checklist: false,
   });
 
+  const getFilteredTasks = () => {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    const endOfWeek = new Date(today);
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    startOfWeek.setDate(today.getDate() - today.getDay() + 1);
+
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    return tasks.filter((task) => {
+      const dueDate = new Date(task.dueDate);
+      const isNoDueDate = !task.dueDate;
+
+      if (selectedOption === "Today") {
+        return isNoDueDate || dueDate.toDateString() === today.toDateString();
+      } else if (selectedOption === "This Week") {
+        return isNoDueDate || (dueDate >= startOfWeek && dueDate <= endOfWeek);
+      } else if (selectedOption === "This Month") {
+        return (
+          isNoDueDate || (dueDate >= startOfMonth && dueDate <= endOfMonth)
+        );
+      }
+      return false;
+    });
+  };
+
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchTasksAndUsers = async () => {
       try {
         const taskData = await getAllTask(email);
         if (taskData.status === 200) {
+          const filteredTasks = taskData.data.filter(task => 
+            task.dueDate != null && new Date(task.dueDate) < new Date()
+          );
+  
+          const updatedTasks = [];
+          for (const task of filteredTasks) {
+            const data = { ...task, category: 'backlog' };
+            await updateTask(data);
+            updatedTasks.push(data);
+          }
           setTasks(taskData.data);
         }
+  
+        const userData = await getAllUsers(email);
+        if (userData.status === 200) {
+          setMembers(userData.data);
+        }
+  
       } catch (error) {
         console.error("Error fetching tasks or users:", error);
       }
     };
-
+  
     if (email) {
-      fetchTasks();
+      fetchTasksAndUsers();
     }
   }, [email]);
 
   useEffect(() => {
-    const getUsers = async () => {
-      const res = await getAllUsers(email);
-      if (res.status === 200) {
-        setMembers(res.data);
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeAddModal();
       }
-      console.log(members);
     };
 
-    if (email) {
-      getUsers();
+    if (isAddModalOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [email]);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isAddModalOpen]);
+  
 
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
@@ -154,16 +207,21 @@ export default function Dashboard() {
     try {
       const res = await addTask(data);
       if (res.status === 201) {
+        toast.success(res.data.message);
+        event.target.reset();
+        setSelectedPriority(null);
+        setChecklists([]);
+        setSelectedEmail("");
         closeAddModal();
       }
     } catch (error) {
+      toast.error(error);
       console.error("Error:", error);
     }
   };
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
   };
 
   const [inputType, setInputType] = useState("text");
@@ -203,6 +261,15 @@ export default function Dashboard() {
     setSelectedEmail(email);
   };
 
+  // const handleOptionClick = (option) => {
+  //   setSelectedOption(option);
+  //   setDropdownOpen(false);
+  //   // Call a callback function passed from Dashboard to update the option state
+  //   if (addPeople) {
+  //     addPeople(option); // This would need to be defined in the Dashboard component
+  //   }
+  // };
+
   return (
     <>
       <header className={styles.headerMain}>
@@ -212,7 +279,12 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <Breadcrumb pageName="Board" filter={true} addPeople={true} />
+      <Breadcrumb
+        pageName="Board"
+        filter={true}
+        addPeople={true}
+        onOptionSelect={setSelectedOption}
+      />
 
       <div className={styles.customBox}>
         <div className={styles.taskBlock}>
@@ -224,7 +296,7 @@ export default function Dashboard() {
               onClick={handleChecklistShow}
             />
           </div>
-          {tasks
+          {getFilteredTasks()
             .filter((task) => task.category === "backlog")
             .map((task) => (
               <HeroBlock
@@ -245,7 +317,7 @@ export default function Dashboard() {
               <img src="./images/main/collapse.png" alt="Collapse" />
             </div>
           </div>
-          {tasks
+          {getFilteredTasks()
             .filter((task) => task.category === "to-do")
             .map((task) => (
               <HeroBlock
@@ -261,7 +333,7 @@ export default function Dashboard() {
             <h6>In progress</h6>
             <img src="./images/main/collapse.png" alt="Collapse" />
           </div>
-          {tasks
+          {getFilteredTasks()
             .filter((task) => task.category === "in-progress")
             .map((task) => (
               <HeroBlock
@@ -325,6 +397,7 @@ export default function Dashboard() {
                   ? "700px"
                   : "620px",
             }}
+            ref={modalRef}
           >
             <header className={`w3Container w3Teal`}>
               <h6>
@@ -492,6 +565,7 @@ export default function Dashboard() {
           </div>
         </div>
       </form>
+      <ToastContainer />
     </>
   );
 }

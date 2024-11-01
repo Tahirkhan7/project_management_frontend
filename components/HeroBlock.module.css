@@ -12,6 +12,7 @@
   color: #000;
   margin-top: 10px;
   margin-bottom: 25px;
+  text-wrap: auto;
 }
 .prioritySec {
   display: flex;
@@ -137,4 +138,87 @@ select:focus-visible {
 .checkProgress{
     display: flex;
     gap: 8px;
+}
+
+.linkCopied {
+    display: block;
+    position: absolute;
+    right: 0;
+    background-color: #f6fff9;
+    min-width: 160px;
+    box-shadow: -1px 0 16px 0 rgba(0, 0, 0, 0.17);
+    z-index: 1;
+    padding: 15px 15px;
+    border-radius: 12px;
+}
+
+.task {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #E2E2E2;
+  border-radius: 7px;
+  cursor: pointer;
+  position: relative;
+}
+
+.task:checked {
+  background-color: #17A2B8;
+  border-color: #17A2B8;
+  border-radius: 7px;
+}
+
+.task:checked::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 0px;
+  left: 4px;
+}
+
+
+.taskTitle {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltipText {
+  visibility: hidden;
+  width: 319px;
+  text-wrap: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 70%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 70%;
+  transform: translateX(-50%);
+  
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
 }

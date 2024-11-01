@@ -1,0 +1,190 @@
+.customBox {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.taskBlock {
+  width: 60%;
+  padding: 20px;
+  margin: 20px;
+  border: 2px solid #edf5fe;
+  border-radius: 10px;
+  height: 70vh;
+  flex-shrink: 0;
+  background-color: #ffffff;
+}
+.contentt {
+  padding-top: 10px;
+  width: 100%;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  padding-right: 8px;
+  margin-bottom: 15px;
+}
+.contentt::-webkit-scrollbar {
+  width: 10px;
+}
+
+.contentt::-webkit-scrollbar-thumb {
+  background-color: #9cb7c5;
+  border-radius: 10px;
+}
+
+.contentt::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.date{
+  display: flex;
+  gap:10px;
+}
+
+.task {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #E2E2E2;
+  border-radius: 7px;
+  cursor: pointer;
+  position: relative;
+}
+
+.task:checked {
+  background-color: #17A2B8;
+  border-color: #17A2B8;
+  border-radius: 7px;
+}
+
+.task:checked::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 0px;
+  left: 4px;
+}
+
+.taskHeading h6 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  margin-top: 0px;
+  text-wrap: auto;
+}
+.taskHeading h5{
+  text-wrap: auto;
+}
+
+
+
+.checkHeading{
+  padding-top: 20px;
+}
+/* General layout */
+.layoutMain {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebarMain {
+  position: relative;
+  width: 224px;
+  background-color: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logoSec {
+  padding: 30px 45px;
+}
+
+.checklistBlock {
+
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e2e2e2;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  position: relative;
+}
+.checklistBlock:last-child {
+  margin: 0px;
+}
+.checklistBlock label {
+  font-size: 14px;
+  color: #000;
+}
+
+.checklistFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+.checklistFooter button {
+  font-size: 8px;
+  font-weight: 500;
+  background-color: #cf3636;
+  color: white;
+  padding: 8px;
+  line-height: 5px;
+  border-radius: 8px;
+}
+.checkProgress {
+  display: flex;
+  gap: 8px;
+}
+
+.prioritySec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.prioritySec span {
+  font-size: 8px;
+  font-weight: 500;
+  position: relative;
+  padding-left: 15px;
+}
+.prioritySec span:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 7px;
+  background-color: #ff2473;
+  width: 9px;
+  height: 9px;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .sidebarMain {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    transform: translateY(0);
+    border-right: none;
+  }
+
+  .customBox {
+    flex-direction: column;
+    padding-top: 60px;
+  }
+
+  .taskBlock {
+    width: 90%;
+    margin: 10px;
+  }
+}

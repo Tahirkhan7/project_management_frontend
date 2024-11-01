@@ -24,23 +24,18 @@
   color: #707070;
 }
 .customBox {
-  width: 100%; /* w-full */
-  max-width: 100%; /* max-w-full */
-  border-radius: 4px; /* rounded-sm */
-}
-
-.dark .customBox {
-  border-color: #4b5563; /* dark:border-strokedark */
-  background-color: #1f2937; /* dark:bg-boxdark */
+  width: 100%;
+  max-width: 100%;
+  border-radius: 4px;
 }
 .customBox {
   display: flex;
   gap: 20px;
   width: 100%;
-  overflow-x: auto; /* Ensures horizontal scrolling */
-  overflow-y: hidden; /* Hides vertical scrollbar */
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
-  padding-bottom: 10px; /* Adds space at the bottom for the scrollbar */
+  padding-bottom: 10px;
 }
 .customBox::-webkit-scrollbar {
   height: 8px;
@@ -60,16 +55,16 @@
   border-radius: 10px;
 }
 .customBox {
-  overflow-y: auto; /* Ensure the scrollbar appears */
+  overflow-y: auto;
 }
 
 .customBox::-webkit-scrollbar {
-  width: 5px; /* Set the scrollbar width to 5px */
+  width: 5px;
 }
 
 .customBox::-webkit-scrollbar-thumb {
-  background-color: #9cb7c5; /* Color of the scrollbar */
-  border-radius: 10px; /* Rounded corners */
+  background-color: #9cb7c5;
+  border-radius: 10px;
 }
 
 .customBox::-webkit-scrollbar-track {
@@ -81,9 +76,12 @@
   padding: 20px;
   background-color: #eef2f5;
   border-radius: 10px;
-  height: 100vh;
+  min-height: 100px;
+  height: auto;
   flex-shrink: 0;
+  overflow: auto;
 }
+
 .taskHeading {
   display: flex;
   justify-content: space-between;
@@ -109,23 +107,22 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
-  opacity: 0; /* Initial state: fully transparent */
-  transition: opacity 0.5s ease-in-out; /* Fade transition */
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .w3Modal.show {
   display: block;
-  opacity: 1; /* Fully opaque when modal is open */
+  opacity: 1;
 }
 
-/* Modal content styles */
 .w3ModalContent {
   background-color: white;
   margin: 15% auto;
   padding: 40px 20px;
   border: 1px solid #888;
-  width: 80%; /* Adjust the width as needed */
+  width: 80%; 
   max-width: 665px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -143,14 +140,14 @@
 }
 .w3Modal.show {
   display: block;
-  opacity: 1; /* Fully opaque when modal is open */
+  opacity: 1;
 }
 .w3ModalContent {
   background-color: white;
   margin: 15% auto;
   padding: 40px 20px;
   border: 1px solid #888;
-  width: 80%; /* Adjust the width as needed */
+  width: 80%;
   max-width: 665px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -221,13 +218,13 @@
 }
 
 #addModal .w3Teal button.priBtn1.active:before {
-  background-color: #2b0211; /* Adjusted active color for HIGH PRIORITY */
+  background-color: #2b0211;
 }
 #addModal .w3Teal button.priBtn2.active:before {
-  background-color: #116ea1; /* Adjusted active color for MODERATE PRIORITY */
+  background-color: #116ea1; 
 }
 #addModal .w3Teal button.priBtn3.active:before {
-  background-color: #052302; /* Adjusted active color for LOW PRIORITY */
+  background-color: #052302;
 }
 .assignSec {
   display: flex;
@@ -288,16 +285,16 @@
   overflow: auto;
 }
 .addNewTaskSec::-webkit-scrollbar {
-  width: 10px; /* Height of the scrollbar */
+  width: 10px;
 }
 
 .addNewTaskSec::-webkit-scrollbar-thumb {
-  background-color: #9cb7c5; /* Color of the scrollbar */
-  border-radius: 10px; /* Rounded corners */
+  background-color: #9cb7c5;
+  border-radius: 10px;
 }
 
 .addNewTaskSec::-webkit-scrollbar-track {
-  background-color: transparent; /* Track color */
+  background-color: transparent; 
 }
 .addNewTaskSec .content {
   margin-bottom: 15px;

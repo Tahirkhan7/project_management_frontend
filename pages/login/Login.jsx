@@ -1,8 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import styles from "./Login.module.css";
 import { loginUser } from "../../services/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -59,9 +61,14 @@ export default function Login() {
       const res = await loginUser(formData);
 
       if (res.status === 200) {
-        const data = { username: res.data.username, email: res.data.email, boardId: res.data.boardId, token: res.data.token };
+        const data = {
+          username: res.data.username,
+          email: res.data.email,
+          boardId: res.data.boardId,
+          token: res.data.token,
+        };
         login(data);
-        navigate("/dashboard");
+        
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -79,74 +86,77 @@ export default function Login() {
   }
 
   return (
-    <div className={styles.loginMain}>
-      <div className={styles.loginLeftSide}>
-        <div className={styles.leftContainer}>
-          <img src="./images/login/login-art.png" alt="Login Art" />
-          <h2>Welcome aboard my friend</h2>
-          <p>Just a couple of clicks and we start</p>
+    <>
+      <div className={styles.loginMain}>
+        <div className={styles.loginLeftSide}>
+          <div className={styles.leftContainer}>
+            <img src="./images/login/login-art.png" alt="Login Art" />
+            <h2>Welcome aboard my friend</h2>
+            <p>Just a couple of clicks and we start</p>
+          </div>
         </div>
-      </div>
-      <div className={styles.loginRightSide}>
-        <div className={styles.rightContainer}>
-          <div className={styles.formMain}>
-            <div className={`${styles.text}-center`}>
-              <h3 className={styles.formHeading}>Login</h3>
-            </div>
-            {error.loginError && (
-              <span className={styles.errorMsge}>{error.loginError}</span>
-            )}
-            <form onSubmit={handleSubmit}>
-              <div className={styles.emailSec}>
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  className={styles.formField}
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-                {error.email && (
-                  <span className={styles.errorMsge}>
-                    {errorMessages.email.message}
-                  </span>
-                )}
+        <div className={styles.loginRightSide}>
+          <div className={styles.rightContainer}>
+            <div className={styles.formMain}>
+              <div className={`${styles.text}-center`}>
+                <h3 className={styles.formHeading}>Login</h3>
               </div>
-
-              <div className={styles.passwordSec}>
-                <div className={styles.passwordBlock}>
+              {error.loginError && (
+                <span className={styles.errorMsge}>{error.loginError}</span>
+              )}
+              <form onSubmit={handleSubmit}>
+                <div className={styles.emailSec}>
                   <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
                     className={styles.formField}
-                    value={formData.password}
+                    value={formData.email}
                     onChange={handleInputChange}
                   />
-                  <img
-                    className={styles.eyeToggle}
-                    src="./images/login/open-eye.png"
-                    alt="Show/Hide password"
-                  />
+                  {error.email && (
+                    <span className={styles.errorMsge}>
+                      {errorMessages.email.message}
+                    </span>
+                  )}
                 </div>
-                {error.password && (
-                  <span className={styles.errorMsge}>
-                    {errorMessages.password.message}
-                  </span>
-                )}
-              </div>
 
-              <button type="submit" className={styles.mainBtn}>
-                Log in
-              </button>
-              <p>Have no account yet?</p>
-              <button type="button" className={`${styles.mainBtn} second`}>
-                <Link to="/register"> Register </Link>
-              </button>
-            </form>
+                <div className={styles.passwordSec}>
+                  <div className={styles.passwordBlock}>
+                    <input
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      className={styles.formField}
+                      value={formData.password}
+                      onChange={handleInputChange}
+                    />
+                    <img
+                      className={styles.eyeToggle}
+                      src="./images/login/open-eye.png"
+                      alt="Show/Hide password"
+                    />
+                  </div>
+                  {error.password && (
+                    <span className={styles.errorMsge}>
+                      {errorMessages.password.message}
+                    </span>
+                  )}
+                </div>
+
+                <button type="submit" className={styles.mainBtn}>
+                  Log in
+                </button>
+                <p>Have no account yet?</p>
+                <button type="button" className={`${styles.mainBtn} second`}>
+                  <Link to="/register"> Register </Link>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 }

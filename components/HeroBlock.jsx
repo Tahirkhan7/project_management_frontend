@@ -1,15 +1,13 @@
-import { useState, useEffect, useContext } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useState, useEffect, useContext, useRef } from "react";
 import styles from "./HeroBlock.module.css";
-import {
-  addTask,
-  deleteTask,
-  getSingleTask,
-  updateTask,
-} from "../services/task";
-import { useModal } from "../model/ModalContext";
+import { deleteTask, getSingleTask, updateTask } from "../services/task";
 import { AppContext } from "../context/AppContext";
 import CheckList from "./CheckList";
 import { getAllUsers } from "../services/auth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,11 +20,16 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
     task.category || "to-do"
   );
 
-  const { email, boardId, logout } = useContext(AppContext);
+  const { email, boardId, logout, setCopyLink } = useContext(AppContext);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [tasks, setTasks] = useState([]);
-  const [editTask, setEditTask] = useState([]);
+  const [editTask, setEditTask] = useState({
+    title: "",
+    assignedTo: "",
+    dueDate: "",
+  });
+
   const [members, setMembers] = useState([]);
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState("");
@@ -50,8 +53,38 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
     }
   }, [email]);
 
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => setIsAddModalOpen(false);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        if (isModalOpen) {
+          setDropdownOpen(false);
+          closeModal();
+        }
+        if (isEditModalOpen) {
+          setDropdownOpen(false);
+          closeEditModal();
+        }
+
+        if (dropdownOpen) {
+          setDropdownOpen(false);
+        }
+      }
+    };
+
+    const isAnyModalOpen = isModalOpen || isEditModalOpen || dropdownOpen;
+
+    if (isAnyModalOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isModalOpen, dropdownOpen]);
 
   const handleAddChecklist = () => {
     if (newChecklistText.trim()) {
@@ -114,6 +147,11 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
   };
 
   const handleInputChange = (field, value) => {
+    setEditTask((prevTask) => ({
+      ...prevTask,
+      [field]: value,
+    }));
+
     if (errorMessages[field].isValid(value)) {
       setError((prevError) => ({ ...prevError, [field]: false }));
     }
@@ -125,6 +163,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
 
     const formValues = {
       title: title.value,
+      assignedTo: assignedTo.value || email,
       priority: selectedPriority,
       checklist: checklists,
     };
@@ -144,7 +183,12 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
     try {
       const res = await updateTask(data);
       if (res.status === 200) {
-        closeAddModal();
+        toast.success(res.data.message);
+        event.target.reset();
+        setSelectedPriority(null);
+        setChecklists([]);
+        setSelectedEmail("");
+        closeEditModal();
       }
     } catch (error) {
       console.error("Error:", error);
@@ -173,7 +217,10 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
 
   const handleAssignTo = (event, email) => {
     event.preventDefault();
-    setSelectedEmail(email);
+    setEditTask((prevTask) => ({
+      ...prevTask,
+      assignedTo: email,
+    }));
   };
 
   const openModal = () => {
@@ -192,12 +239,10 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
         setEditTask(res.data);
         setSelectedPriority(res.data.priority);
         setChecklists(res.data.checklist);
-        setIsEditModalOpen(false);
       }
       setIsEditModalOpen(true);
     };
     fetchTask();
-
   };
   const closeEditModal = () => {
     setIsEditModalOpen(false);
@@ -241,7 +286,6 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
   const updateTaskStatus = async (data) => {
     try {
       await updateTask(data);
-      console.log("Checklist updated successfully", data);
     } catch (error) {
       console.error("Error updating checklist: ", error);
     }
@@ -267,15 +311,33 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
   };
 
   const handleTaskDelete = async (id) => {
-    const res = await deleteTask(id);
-    console.log(res.status);
-    if (res.status === 200) closeModal();
+    try {
+      const res = await deleteTask(id);
+      if (res.status === 200) {
+        closeModal();
+        toast.success(res.data.message, {
+          autoClose: 1000,
+        });
+      } else {
+        closeModal();
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        closeModal();
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+        closeModal();
+      }
+    }
   };
 
   const handleShare = async (event, id) => {
     const linkToShare = `http://localhost:5173/task/view/${id}`;
     try {
       await navigator.clipboard.writeText(linkToShare);
+      setCopyLink(linkToShare);
       closeModal();
     } catch (error) {
       console.error("Failed to copy: ", error);
@@ -297,6 +359,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                   ? "700px"
                   : "620px",
             }}
+            ref={modalRef}
           >
             <header className={`w3Container w3Teal`}>
               <h6>
@@ -359,9 +422,11 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                     type="email"
                     name="assignedTo"
                     value={editTask.assignedTo}
-                    readOnly
                     className={`assignEmail`}
                     placeholder="Add an assignee"
+                    onChange={(e) =>
+                      handleInputChange("assignedTo", e.target.value)
+                    }
                   />
                   <div className={`assignDrpdown`}>
                     {members &&
@@ -440,7 +505,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                 <div className={`selectDate`}>
                   <input
                     type={inputType}
-                    value={editTask.dueDate ? new Date(editTask.dueDate) : ''}
+                    value={editTask.dueDate ? new Date(editTask.dueDate) : ""}
                     name="dueDate"
                     placeholder="Select Due Date"
                     className={`textboxN`}
@@ -471,7 +536,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
         id="deleteTaskModal"
         className={`w3Modal ${isModalOpen ? "show" : ""}`}
       >
-        <div className={`w3ModalContent w3Card4`}>
+        <div className={`w3ModalContent w3Card4`} ref={modalRef}>
           <header className={`w3Container w3Teal`}>
             <h2>Are you sure you want to Delete?</h2>
           </header>
@@ -495,7 +560,23 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
       {task && (
         <div key={id} className={styles.heroSecBlock}>
           <div className={styles.prioritySec}>
-            <span>{task.priority.toUpperCase()} PRIORITY</span>
+            <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+              <div
+                style={{
+                  backgroundColor:
+                    task.priority === "high"
+                      ? "#FF2473"
+                      : task.priority === "low"
+                      ? "#63C05B"
+                      : "#18B0FF",
+                  height: "10px",
+                  width: "10px",
+                  borderRadius: "50%",
+                }}
+              ></div>
+
+              <h6>{task.priority.toUpperCase()} PRIORITY</h6>
+            </div>
             <div className={`${styles.dropdown} threeDots`}>
               <button className={styles.dropbtn} onClick={toggleDropdown}>
                 <img
@@ -505,7 +586,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                 />
               </button>
               {dropdownOpen && (
-                <div className={styles.dropdownContent}>
+                <div className={styles.dropdownContent} ref={modalRef}>
                   <a onClick={() => openEditModal(task._id)}>Edit</a>
                   <a onClick={(e) => handleShare(e, task._id)}>Share</a>
                   <a onClick={openModal}>Delete</a>
@@ -514,7 +595,11 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
             </div>
           </div>
 
-          <h5>{task.title}</h5>
+          {/* <h5>{task.title}</h5> */}
+          <div className={styles.tooltip}>
+          {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
+            {task.title.length > 20 && <span className={styles.tooltipText}>{task.title}</span>}
+          </div>
 
           <div className={styles.checklistSec}>
             <div className={styles.checkHeading}>
@@ -556,6 +641,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                   name={`task${index}`}
                   checked={formData[`task${index}`] || false}
                   onChange={handleChange}
+                  className={styles.task}
                 />
                 <label htmlFor={`task${index}`}>{item.text}</label>
               </div>
@@ -564,11 +650,38 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
 
           <div className={styles.checklistFooter}>
             <div className={`${styles.check} date`}>
-              <button>
-                {task.dueDate
-                  ? new Date(task.dueDate).toLocaleDateString()
-                  : "No Due Date"}
-              </button>
+              {task.dueDate != null && (
+                <button
+                  style={{
+                    backgroundColor: (() => {
+                      const today = new Date();
+                      const dueDate = new Date(task.dueDate);
+
+                      if (task.category === "done" && task.dueDate != null) {
+                        return "#63C05B";
+                      } else if (task.dueDate && dueDate > today) {
+                        return "#DBDBDB";
+                      } else {
+                        return "#CF3636";
+                      }
+                    })(),
+                    color: (() => {
+                      const today = new Date();
+                      const dueDate = new Date(task.dueDate);
+
+                      if (task.dueDate && dueDate < today) {
+                        return "#FFFFFF";
+                      } else {
+                        return "#5A5A5A";
+                      }
+                    })(),
+                  }}
+                >
+                  {task.dueDate
+                    ? new Date(task.dueDate).toLocaleDateString()
+                    : "No Due Date"}
+                </button>
+              )}
             </div>
             <div className={styles.checkProgress}>
               <button

@@ -6,8 +6,7 @@ import Analytics from "../pages/analytics/Analytics";
 import Settings from "../pages/settings/Settings";
 import DefaultLayout from "../layout/DefaultLayout";
 import NotFound from "../pages/notFound/NotFound";
-import SingleTask from "../pages/singleTask/SingleTask";
-import HeroShortBlock from "../components/HeroShortBlock";
+import ViewTask from "../components/ViewTask";
 
 function App() {
   return (
@@ -19,9 +18,9 @@ function App() {
         <Route path="/settings" element={<Settings />} />
       </Route>
 
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/task/view/:id" element={<HeroShortBlock />} />
+      <Route path="/task/view/:id" element={<ViewTask />} />
       <Route path="/register" element={<Register />} />
     </Routes>
   );
