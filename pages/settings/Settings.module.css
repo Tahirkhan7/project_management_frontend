@@ -85,7 +85,7 @@
   .formMain form input[type="password"] {
     font-size: 16px;
     background-color: white;
-    background-image: url("./images/login/lock.png");
+    background-image: url("../public/images/login/lock.png");
     background-position: 14px 7px;
     background-repeat: no-repeat;
   }
