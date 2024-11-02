@@ -134,11 +134,13 @@ const Settings = () => {
           ...prevError,
           registerError: error.response.data.message,
         }));
+        toast.error(error.response.data.message);
       } else {
         setError((prevError) => ({
           ...prevError,
           registerError: "An unexpected error occurred!",
         }));
+        toast.error("An unexpected error occurred!");
       }
     }
   }
