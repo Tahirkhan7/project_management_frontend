@@ -334,7 +334,7 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
   };
 
   const handleShare = async (event, id) => {
-    const linkToShare = `https://project-management-gdzw.onrender.com/task/view/${id}`;
+    const linkToShare = `https://project-management-mocha.vercel.app//task/view/${id}`;
     try {
       await navigator.clipboard.writeText(linkToShare);
       setCopyLink(linkToShare);
