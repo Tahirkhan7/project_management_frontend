@@ -2,10 +2,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useContext, useRef } from "react";
 import styles from "./HeroBlock.module.css";
-import { deleteTask, getSingleTask, updateTask } from "../services/task";
-import { AppContext } from "../context/AppContext";
-import CheckList from "./CheckList";
-import { getAllUsers } from "../services/auth";
+import { deleteTask, getSingleTask, updateTask } from "../../services/task";
+import { AppContext } from "../../context/AppContext";
+import CheckList from "../CheckList";
+import { getAllUsers } from "../../services/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -450,10 +450,6 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
                           </button>
                         </div>
                       ))}
-                    {/* {members.map((member) => ( */}
-                    {/* // <AssignEmail key={member._id} member={member.email} /> */}
-                    {/* <AssignEmail members={members} /> */}
-                    {/* // ))} */}
                   </div>
                 </div>
               </div>
@@ -595,7 +591,6 @@ const HeroBlock = ({ id, task, isAllcheckListVisible, updateTaskCategory }) => {
             </div>
           </div>
 
-          {/* <h5>{task.title}</h5> */}
           <div className={styles.tooltip}>
           {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
             {task.title.length > 20 && <span className={styles.tooltipText}>{task.title}</span>}

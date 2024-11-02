@@ -70,13 +70,11 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
   };
 
   const handleAssignPeopleSubmit = async () => {
-    // Check if selectedEmail is provided
     if (!selectedEmail) {
       setError("Email is required.");
       return;
     }
 
-    // Regex for validating email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(selectedEmail)) {
       setError("Please enter a valid email address.");
@@ -169,28 +167,6 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
                 }}
                 required
               />
-
-              {/* <div className="assignDrpdown2">
-              {members &&
-                members.map((member) => (
-                  <div className="assignEmailBlock" key={member._id}>
-                    <div className="setAssignBlock">
-                      <div className="assignEmailName">
-                        {member.name
-                          .split(" ")
-                          .slice(0, 2)
-                          .map((word) => word[0])
-                          .join("")
-                          .toUpperCase()}
-                      </div>
-                      <p>{member.email}</p>
-                    </div>
-                    <button onClick={() => handleAssignPeople(member.email)}>
-                      Assign
-                    </button>
-                  </div>
-                ))}
-            </div> */}
               <div className={`formFooter`}>
                 <button type="button" onClick={closeModal}>
                   Cancel

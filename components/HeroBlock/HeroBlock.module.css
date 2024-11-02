@@ -189,6 +189,7 @@ select:focus-visible {
 .tooltip {
   position: relative;
   display: inline-block;
+  max-width: 70%;
 }
 
 .tooltip .tooltipText {

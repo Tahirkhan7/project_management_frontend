@@ -6,7 +6,7 @@ import Analytics from "../pages/analytics/Analytics";
 import Settings from "../pages/settings/Settings";
 import DefaultLayout from "../layout/DefaultLayout";
 import NotFound from "../pages/notFound/NotFound";
-import ViewTask from "../components/ViewTask";
+import ViewTask from "../components/ViewTask/ViewTask";
 
 function App() {
   return (

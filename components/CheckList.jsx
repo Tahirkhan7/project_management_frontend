@@ -1,23 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import { useState } from "react";
 
 const CheckList = ({ text, checked, onCheckToggle, onDelete }) => {
   const [isChecklistVisible, setIsChecklistVisible] = useState(true);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const options = ["Edit", "Share", "Delete"];
-
-  const handleToggleChecklist = () => {
-    setIsChecklistVisible(!isChecklistVisible);
-  };
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleOptionClick = () => {
-    setDropdownOpen(false);
-  };
 
   return (
     <div

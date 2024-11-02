@@ -5,23 +5,20 @@
     z-index: 9999;
     display: flex;
     height: 100vh;
-    width: 18.125rem; /* 72.5 / 4 = 18.125rem */
+    width: 18.125rem;
     flex-direction: column;
     overflow-y: hidden;
     background-color: white;
     transition: transform 0.3s ease-linear;
   }
-  /* Sidebar open state */
   .siderbarMain.translate-x-0 {
     transform: translateX(0);
   }
   
-  /* Sidebar closed state */
   .siderbarMain.-translate-x-full {
     transform: translateX(-100%);
   }
 
-  /* For large screens (lg:static and lg:translate-x-0) */
   @media (min-width: 1024px) {
     .siderbarMain {
       position: static;

@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { AppContext } from "../../context/AppContext";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import HeroBlock from "../../components/HeroBlock";
+import HeroBlock from "../../components/HeroBlock/HeroBlock";
 import CheckList from "../../components/CheckList";
 import { useModal } from "../../model/ModalContext";
 import formatDateAndTime from "../../utils/formatDateAndTime";
@@ -261,14 +261,6 @@ export default function Dashboard() {
     setSelectedEmail(email);
   };
 
-  // const handleOptionClick = (option) => {
-  //   setSelectedOption(option);
-  //   setDropdownOpen(false);
-  //   // Call a callback function passed from Dashboard to update the option state
-  //   if (addPeople) {
-  //     addPeople(option); // This would need to be defined in the Dashboard component
-  //   }
-  // };
 
   return (
     <>
@@ -314,7 +306,7 @@ export default function Dashboard() {
               <button onClick={openAddModal}>
                 <img src="./images/main/add.png" alt="Add" />
               </button>
-              <img src="./images/main/collapse.png" alt="Collapse" />
+              <img src="./images/main/collapse.png" alt="Collapse" onClick={handleChecklistShow} />
             </div>
           </div>
           {getFilteredTasks()
@@ -331,7 +323,7 @@ export default function Dashboard() {
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>In progress</h6>
-            <img src="./images/main/collapse.png" alt="Collapse" />
+            <img src="./images/main/collapse.png" alt="Collapse" onClick={handleChecklistShow} />
           </div>
           {getFilteredTasks()
             .filter((task) => task.category === "in-progress")
@@ -347,7 +339,7 @@ export default function Dashboard() {
         <div className={styles.taskBlock}>
           <div className={styles.taskHeading}>
             <h6>Done</h6>
-            <img src="./images/main/collapse.png" alt="Collapse" />
+            <img src="./images/main/collapse.png" alt="Collapse" onClick={handleChecklistShow} />
           </div>
           {tasks
             .filter((task) => task.category === "done")

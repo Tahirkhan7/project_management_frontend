@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { getSingleTask } from "../services/task";
+import { getSingleTask } from "../../services/task";
 import styles from "./ViewTask.module.css";
 import { useEffect, useState } from "react";
-import Logo from "../public/images/logo/d-logo.png";
+import Logo from "../../public/images/logo/d-logo.png";
 
 const ViewTask = () => {
   const [task, setTask] = useState([]);
@@ -60,7 +60,7 @@ const ViewTask = () => {
                   </span>
                   <span><small>
                     (
-                    {task.checklist ? task.checklist.filter(Boolean).length : 0}
+                    {task.checklist ? task.checklist.filter(task=>task.isChecked).length : 0}
                     /{task.checklist ? task.checklist.length : 0})
                     </small>
                   </span>
