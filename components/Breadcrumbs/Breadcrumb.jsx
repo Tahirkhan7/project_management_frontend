@@ -8,7 +8,6 @@ import { addMemberToBoard } from "../../services/board";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// eslint-disable-next-line react/prop-types
 const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
   const { boardId, email, copiedLink } = useContext(AppContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,6 +17,7 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
   const [error, setError] = useState("");
   const modalRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDoneAddPeopleModalOpen, setIsDoneAddPeopleModalOpen] = useState(false);
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
@@ -35,23 +35,23 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
     if (email) getAllUsersData();
   }, [email]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        closeModal();
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (modalRef.current && !modalRef.current.contains(event.target)) {
+  //       closeModal();
+  //     }
+  //   };
 
-    if (isModalOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+  //   if (isModalOpen) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isModalOpen]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [isModalOpen]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -61,11 +61,11 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
-    setSelectedEmail("");
     setIsModalOpen(false);
   };
 
   const handleOpenModal = () => {
+    setSelectedEmail("");
     openModal();
   };
 
@@ -90,14 +90,15 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
       const res = await addMemberToBoard(data);
       if (res.status === 200) {
         toast.success(res.data.message);
-        setSelectedEmail("");
         closeModal();
+        setIsDoneAddPeopleModalOpen(true);
       } else {
         setError(res.data.message);
       }
     } catch (error) {
       if (error.response && error.response.data) {
         setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
         setError("An unexpected error occurred.");
         closeModal();
@@ -105,6 +106,10 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
       }
     }
   };
+
+  const handleIsDoneAddPeopleModalOpen = () =>{
+    setIsDoneAddPeopleModalOpen(false);
+  }
 
   return (
     <>
@@ -173,13 +178,32 @@ const Breadcrumb = ({ pageName, filter, addPeople, onOptionSelect }) => {
                 </button>
                 <input
                   type="submit"
-                  value="Submit"
+                  value="Add Email"
                   onClick={handleAssignPeopleSubmit}
                 />
               </div>
             </div>
           </div>
         </div>
+
+        <div id="id02" className={`w3Modal ${isDoneAddPeopleModalOpen ? "show" : ""}`}>
+          <div className={`w3ModalContent w3Card4`} ref={modalRef}>
+            <header className={`w3Container w3Teal`}>
+              <h2 style={{ textAlign: "center" }}>{selectedEmail != "" && selectedEmail} added to board</h2>
+
+            </header>
+            <div className={`w3Container`}>
+              <div className={`formFooter`}>
+                <input
+                  type="submit"
+                  value="Okay, Got It"
+                  onClick={handleIsDoneAddPeopleModalOpen}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </>
   );
