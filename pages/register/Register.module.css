@@ -55,21 +55,21 @@
 .formMain form input[type="email"] {
   font-size: 16px;
   background-color: white;
-  background-image: url("./images/login/email.png");
+  background-image: url("../images/login/email.png");
   background-position: 14px 8px;
   background-repeat: no-repeat;
 }
 .formMain form input[type="password"] {
   font-size: 16px;
   background-color: white;
-  background-image: url("./images/login/lock.png");
+  background-image: url("../images/login/lock.png");
   background-position: 14px 7px;
   background-repeat: no-repeat;
 }
 .formMain form input[type="text"] {
   font-size: 16px;
   background-color: white;
-  background-image: url("./images/login/user.png");
+  background-image: url("../images/login/user.png");
   background-position: 14px 7px;
   background-repeat: no-repeat;
 }
